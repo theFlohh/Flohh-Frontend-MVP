@@ -1,6 +1,6 @@
 import { useState } from "react";
 import API from "../Services/Api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", role:"user" });
@@ -77,7 +77,7 @@ const Signup = () => {
 
         <div className="text-center text-sm text-gray-500">
           Already have an account?{" "}
-          <a href="/login" className="text-indigo-500 hover:underline">
+          <Link to="/login" className="text-indigo-500 hover:underline">
             Sign in
           </a>
         </div>
