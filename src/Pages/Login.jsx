@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../Services/Api";
 import { useAuth } from "../Context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -74,9 +75,9 @@ const Login = () => {
 
         <div className="text-center text-sm text-gray-500">
           Don’t have an account?{" "}
-          <a href="/signup" className="text-indigo-500 hover:underline">
+          <Link to="/signup" className="text-indigo-500 hover:underline">
             Sign up
-          </a>
+          </Link>
         </div>
       </div>
     </div>

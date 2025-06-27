@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api'; // Update to your backend URL
+const BASE_URL = 'https://floahh-backend.onrender.com/api'; // Update to your backend URL
 
 // Create an Axios instance
 const API = axios.create({
