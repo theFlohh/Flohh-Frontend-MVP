@@ -117,7 +117,7 @@ const dailyPoints = pointsBreakdown.dailyPoints;
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-500">Members :</span>
-            <span className="font-semibold text-gray-800">{members.length.toString().padStart(2, '0')}/05</span>
+            <span className="font-semibold text-gray-800">{members.length.toString().padStart(2, '0')}/07</span>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-500">Type :</span>

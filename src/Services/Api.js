@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://floahh-backend.onrender.com/api'; // Update to your backend URL
+// render
+// const BASE_URL = 'https://floahh-backend.onrender.com/api';
+
+// railway
+const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
+
+// local
+// const BASE_URL = 'http://localhost:3002/api';
+
 
 // Create an Axios instance
 const API = axios.create({
@@ -74,7 +82,7 @@ export const submitDraft = async (draftedArtists) => {
 };
 
 export const updateDraft = async (draftedArtists) => {
-  const { data } = await API.put('/draft/update', { draftedArtists });
+  const { data } = await API.put('/draft/drafts/update', { draftedArtists });
   return data;
 };
 

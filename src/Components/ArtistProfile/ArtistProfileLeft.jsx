@@ -33,7 +33,7 @@ const ArtistProfileLeft = ({ artist }) => {
         <div className="flex items-center gap-2 mb-2 bg-gray-100 rounded-lg px-3 py-2 w-full justify-center">
           <span className="text-2xl">🔥</span>
           <span className="text-gray-800 text-sm font-semibold">
-            {artist?.latestScore?.popularityRank ? `Popularity Score #${artist.latestScore.popularityRank}` : "No score"}
+            {artist?.monthlyTotal ? `Monthly Score: ${artist.monthlyTotal}` : "No score"}
           </span>
         </div>
       </div>

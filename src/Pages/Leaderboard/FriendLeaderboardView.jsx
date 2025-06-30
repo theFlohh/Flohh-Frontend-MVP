@@ -39,14 +39,14 @@ const FriendLeaderboardView = () => {
     <div className="p-6 max-w-3xl mx-auto">
       <h2 className="text-2xl font-bold mb-4">{leaderboard.name} 🏆</h2>
 
-      {!joined && (
+      {/* {!joined && (
         <button
           className="mb-4 bg-green-600 text-white px-4 py-2 rounded"
           onClick={handleJoin}
         >
           Join Leaderboard
         </button>
-      )}
+      )} */}
 
       <ul className="space-y-3">
         {leaderboard.leaderboard.map((user, index) => (
