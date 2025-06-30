@@ -386,7 +386,7 @@ const CreateTeam = () => {
                     navigate(`/artist/${artist._id}`);
                   }}
                 >
-                  <img src={artist.image || "/logo192.png"} alt={artist.name} className="w-20 h-20 object-cover rounded-md mb-2 border border-gray-200" />
+                  <img src={artist.image || "/logoflohh.png"} alt={artist.name} className="w-20 h-20 object-cover rounded-md mb-2 border border-gray-200" />
                   <h4 className="font-semibold text-gray-800 text-base mb-1 text-center">{artist.name}</h4>
                   <p className="text-xs text-gray-500 text-center mb-2">{artist.type || tier.label} Artist</p>
                   <button
@@ -423,7 +423,7 @@ const CreateTeam = () => {
                 selected[tier.value].map(artist => (
                   <div key={artist._id} className={`flex items-center justify-between rounded-lg p-2 mb-1 ${locked ? 'bg-gray-100' : 'bg-gray-50'} ${locked ? 'opacity-60' : ''}`}>
                     <div className="flex items-center gap-2">
-                      <img src={artist.image || "/logo192.png"} alt={artist.name} className="w-8 h-8 rounded-full object-cover border border-gray-300" />
+                      <img src={artist.image || "/logoflohh.png"} alt={artist.name} className="w-8 h-8 rounded-full object-cover border border-gray-300" />
                       <div>
                         <div className="text-gray-800 font-semibold text-xs">{artist.name}</div>
                         <div className="text-gray-500 text-xs">{artist.type || tier.label} Artist</div>

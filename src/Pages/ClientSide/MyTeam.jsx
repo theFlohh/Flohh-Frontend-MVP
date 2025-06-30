@@ -72,7 +72,7 @@ const weeklyPoints = pointsBreakdown.weeklyPoints;
 const dailyPoints = pointsBreakdown.dailyPoints;
   const teamType = user.type || 'Mix';
   const teamName = user.name || 'My Team';
-  const teamAvatar = user.avatar || "/logo192.png";
+  const teamAvatar = user.avatar || "/logoflohh.png";
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row gap-8 p-4 md:p-8">

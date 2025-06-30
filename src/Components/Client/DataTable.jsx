@@ -11,7 +11,7 @@ const ArtistCard = ({ artist, onClick }) => (
     title={artist.name}
   >
     <img
-      src={artist.image || "/logo192.png"}
+      src={artist.image || "/logoflohh.png"}
       alt={artist.name}
       className="w-20 h-20 object-cover rounded-full border-2 border-purple-100 group-hover:border-purple-400 mb-2"
     />

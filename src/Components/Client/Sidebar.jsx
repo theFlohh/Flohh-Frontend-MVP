@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   }
   const userName = user?.name || "User";
   const userRole = user?.role || "User";
-  const userAvatar = user?.image || "/logo192.png";
+  const userAvatar = user?.image || "/logoflohh.png";
 
   const handleLogout = () => {
     logout();

@@ -18,7 +18,7 @@ const ArtistProfileLeft = ({ artist }) => {
       </div>
       {/* Profile Card */}
       <div className="w-full flex flex-col items-center px-6 pb-0">
-        <img src={artist?.image || "/logo192.png"} alt={artist?.name || "Artist"} className="w-24 h-24 rounded-full object-cover mb-3 border-4 border-white shadow" />
+        <img src={artist?.image || "/logoflohh.png"} alt={artist?.name || "Artist"} className="w-24 h-24 rounded-full object-cover mb-3 border-4 border-white shadow" />
         <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2 mb-1">
           {artist?.name || "Artist Name"} <span className="ml-1 text-purple-400 text-base">●</span>
         </h2>

@@ -69,7 +69,7 @@ const StandardArtist = ({ filter }) => {
               onClick={() => navigate(`/artist/${artist._id || artist.id}`)}
             >
               <img
-                src={artist.img || artist.image || "/logo192.png"}
+                src={artist.img || artist.image || "/logoflohh.png"}
                 alt={artist.name}
                 className="w-24 h-24 object-cover rounded-md mb-3 border border-gray-200"
               />
