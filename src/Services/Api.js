@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // render
-// const BASE_URL = 'https://floahh-backend.onrender.com/api';
+const BASE_URL = 'https://floahh-backend.onrender.com/api';
 
 // railway
-const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
+// const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
 
 // local
 // const BASE_URL = 'http://localhost:3002/api';
@@ -76,13 +76,13 @@ export const fetchDraftableArtists = async (category) => {
   return data;
 };
 
-export const submitDraft = async (draftedArtists) => {
-  const { data } = await API.post('/draft/drafts', { draftedArtists });
+export const submitDraft = async (draftedArtists, teamName) => {
+  const { data } = await API.post('/draft/drafts', { draftedArtists, teamName });
   return data;
 };
 
-export const updateDraft = async (draftedArtists) => {
-  const { data } = await API.put('/draft/drafts/update', { draftedArtists });
+export const updateDraft = async (draftedArtists, teamName) => {
+  const { data } = await API.put('/draft/drafts/update', { draftedArtists, teamName });
   return data;
 };
 
