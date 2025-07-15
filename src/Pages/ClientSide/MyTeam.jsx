@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUserTeam, fetchUserPointsBreakdown } from "../../Services/Api";
+import { fetchUserTeam, fetchUserPointsBreakdown, updateDraft } from "../../Services/Api";
 import { useNavigate } from "react-router-dom";
 import { fetchMyFriendLeaderboards } from "../../Services/Api";
 
@@ -10,6 +10,11 @@ const MyTeam = () => {
   const navigate = useNavigate();
   const [userLeagueUrl, setUserLeagueUrl] = useState(null);
   const [pointsBreakdown, setPointsBreakdown] = useState({ totalPoints: 0, weeklyPoints: 0, dailyPoints: 0 });
+  const [editingTeamName, setEditingTeamName] = useState(false);
+  const [newTeamName, setNewTeamName] = useState("");
+  const [teamNameLoading, setTeamNameLoading] = useState(false);
+  const [teamNameError, setTeamNameError] = useState("");
+  const [teamNameSuccess, setTeamNameSuccess] = useState("");
 
 
   useEffect(() => {
@@ -32,6 +37,7 @@ if (leagueData?.leaderboards?.length > 0) {
 }
       setTeam(teamData);
       setPointsBreakdown(pointsData);
+      setNewTeamName(teamData?.userTeam?.teamName || "");
     } catch (err) {
       setError("Failed to load team data");
     } finally {
@@ -59,7 +65,20 @@ if (leagueData?.leaderboards?.length > 0) {
     return <div className="flex justify-center items-center min-h-screen bg-gray-50">Loading...</div>;
   }
   if (error) {
-    return <div className="flex justify-center items-center min-h-screen bg-gray-50 text-red-500">{error}</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 max-w-md w-full">
+          <div className="text-xl font-bold text-gray-800 text-center">You haven't created a team yet.</div>
+          <div className="text-gray-500 text-center mb-2">Start building your dream team to compete on the leaderboard!</div>
+          <button
+            className="mt-2 px-6 py-2 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg shadow transition text-base"
+            onClick={() => navigate('/create-team')}
+          >
+            Create Team
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const user = team?.userTeam || {};
@@ -71,8 +90,33 @@ const totalUserPoints = pointsBreakdown.totalPoints;
 const weeklyPoints = pointsBreakdown.weeklyPoints;
 const dailyPoints = pointsBreakdown.dailyPoints;
   const teamType = user.type || 'Mix';
-  const teamName = user.name || 'My Team';
+  const teamName = user.teamName || 'My Team';
   const teamAvatar = user.avatar || "/logoflohh.png";
+
+  const handleTeamNameSave = async () => {
+    if (!newTeamName.trim()) {
+      setTeamNameError("Team name cannot be empty.");
+      return;
+    }
+    setTeamNameLoading(true);
+    setTeamNameError("");
+    setTeamNameSuccess("");
+    try {
+      // Collect draftedArtists ids
+      const draftedArtists = (team?.teamMembers || []).map(m => m.artistId?._id || m.artistId);
+      await updateDraft(draftedArtists, newTeamName.trim());
+      setEditingTeamName(false);
+      setTeamNameSuccess("Team name updated!");
+      setTimeout(() => setTeamNameSuccess(""), 2000);
+      // Optionally, refetch team
+      const updated = await fetchUserTeam();
+      setTeam(updated);
+    } catch (e) {
+      setTeamNameError("Failed to update team name.");
+    } finally {
+      setTeamNameLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row gap-8 p-4 md:p-8">
@@ -81,7 +125,45 @@ const dailyPoints = pointsBreakdown.dailyPoints;
         {/* Team Card */}
         <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-2">
           <img src={teamAvatar} alt={teamName} className="w-20 h-20 rounded-full object-cover border-4 border-purple-300 mb-2" />
-          <div className="text-xl font-bold text-gray-800 flex items-center gap-2">{teamName}</div>
+          <div className="text-xl font-bold text-gray-800 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
+            {editingTeamName || !teamName || teamName === "My Team" ? (
+              <>
+                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-lg px-2 py-1 text-base font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-300 transition w-full sm:w-auto"
+                    value={newTeamName}
+                    onChange={e => setNewTeamName(e.target.value)}
+                    placeholder="Enter team name"
+                    maxLength={32}
+                    disabled={teamNameLoading}
+                    style={{ minWidth: 120 }}
+                  />
+                  <button
+                    className="sm:ml-2 w-full sm:w-auto px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-semibold transition disabled:opacity-50 mt-2 sm:mt-0"
+                    onClick={handleTeamNameSave}
+                    disabled={teamNameLoading || !newTeamName.trim()}
+                  >
+                    {teamNameLoading ? "Saving..." : "Save"}
+                  </button>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2 mt-1 w-full">
+                  {teamNameError && <span className="text-red-500 text-xs font-medium w-full sm:w-auto">{teamNameError}</span>}
+                  {teamNameSuccess && <span className="text-green-600 text-xs font-medium w-full sm:w-auto">{teamNameSuccess}</span>}
+                </div>
+              </>
+            ) : (
+              <>
+                {teamName}
+                <button
+                  className="ml-2 px-2 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded text-xs font-medium transition"
+                  onClick={() => { setEditingTeamName(true); setTeamNameError(""); setTeamNameSuccess(""); }}
+                >
+                  Edit
+                </button>
+              </>
+            )}
+          </div>
           <div className="text-gray-500 text-sm flex items-center gap-1">
             <span role="img" aria-label="coin">🪙</span> {totalUserPoints.toLocaleString()} pts
           </div>
