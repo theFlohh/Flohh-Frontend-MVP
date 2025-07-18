@@ -1,6 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
+
+// Utility to decode JWT and check expiry
+function isTokenExpired(token) {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    if (!payload.exp) return false;
+    // exp is in seconds
+    return Date.now() >= payload.exp * 1000;
+  } catch {
+    return true;
+  }
+}
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -12,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     }
   });
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const login = (newToken, userObj) => {
     setToken(newToken);
@@ -41,6 +56,14 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
+
+  // Token expiry check on mount and whenever token changes
+  useEffect(() => {
+    if (token && isTokenExpired(token)) {
+      logout();
+      navigate("/login", { replace: true });
+    }
+  }, [token, navigate]);
 
   return (
     <AuthContext.Provider value={{ token, user, login, logout, loading }}>

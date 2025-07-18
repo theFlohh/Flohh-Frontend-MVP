@@ -73,11 +73,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
       <Router>
+    <AuthProvider>
         <AppRoutes />
-      </Router>
     </AuthProvider>
+      </Router>
   );
 }
 

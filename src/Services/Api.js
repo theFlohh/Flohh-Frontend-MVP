@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // render
-// const BASE_URL = 'https://floahh-backend.onrender.com/api';
+const BASE_URL = 'https://floahh-backend.onrender.com/api';
 
 // railway
 // const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
 
 // local
-const BASE_URL = 'http://localhost:3002/api';
+// const BASE_URL = 'http://localhost:3002/api';
 
 
 // Create an Axios instance
