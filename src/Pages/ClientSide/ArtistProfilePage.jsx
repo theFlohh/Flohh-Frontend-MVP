@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchArtistSummary } from "../../Services/Api";
 import ArtistProfileLeft from "../../Components/ArtistProfile/ArtistProfileLeft";
 import ArtistProfileScores from "../../Components/ArtistProfile/ArtistProfileScores";
+import Loader from '../../Components/Loader';
 
 const ArtistProfilePage = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const ArtistProfilePage = () => {
     getArtist();
   }, [id]);
 
-  if (loading) return <div className="flex justify-center items-center min-h-screen bg-gray-50">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="flex justify-center items-center min-h-screen bg-gray-50 text-red-500">{error}</div>;
 
   return (
