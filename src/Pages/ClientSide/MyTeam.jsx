@@ -74,9 +74,10 @@ const MyTeam = () => {
   }
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 max-w-md w-full">
-          <div className="text-xl font-bold text-gray-800 text-center">
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 max-w-md w-full">
+          <div className="text-xl font-bold text-gray-200 text-center flex flex-col items-center">
+            <img src="/img/team.png" alt="team"/>
             You haven't created a team yet.
           </div>
           <div className="text-gray-500 text-center mb-2">
@@ -133,216 +134,171 @@ const MyTeam = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row gap-8 p-4 md:p-8">
-      {/* Left Side */}
-      <div className="w-full md:w-1/3 flex flex-col gap-6 max-w-sm mx-auto md:mx-0">
-        {/* Team Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-2">
-          <img
-            src={teamAvatar}
-            alt={teamName}
-            className="w-20 h-20 rounded-full object-cover border-4 border-purple-300 mb-2"
-          />
-          <div className="text-xl font-bold text-gray-800 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
-            {editingTeamName || !teamName || teamName === "My Team" ? (
-              <>
-                <div className="flex flex-col sm:flex-row gap-2 w-full">
-                  <input
-                    type="text"
-                    className="border border-gray-300 rounded-lg px-2 py-1 text-base font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-300 transition w-full sm:w-auto"
-                    value={newTeamName}
-                    onChange={(e) => setNewTeamName(e.target.value)}
-                    placeholder="Enter team name"
-                    maxLength={32}
-                    disabled={teamNameLoading}
-                    style={{ minWidth: 120 }}
-                  />
-                  <button
-                    className="sm:ml-2 w-full sm:w-auto px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-semibold transition disabled:opacity-50 mt-2 sm:mt-0"
-                    onClick={handleTeamNameSave}
-                    disabled={teamNameLoading || !newTeamName.trim()}
-                  >
-                    {teamNameLoading ? "Saving..." : "Save"}
-                  </button>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-2 mt-1 w-full">
-                  {teamNameError && (
-                    <span className="text-red-500 text-xs font-medium w-full sm:w-auto">
-                      {teamNameError}
-                    </span>
-                  )}
-                  {teamNameSuccess && (
-                    <span className="text-green-600 text-xs font-medium w-full sm:w-auto">
-                      {teamNameSuccess}
-                    </span>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                {teamName}
-                <button
-                  className="ml-2 px-2 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded text-xs font-medium transition"
-                  onClick={() => {
-                    setEditingTeamName(true);
-                    setTeamNameError("");
-                    setTeamNameSuccess("");
-                  }}
-                >
-                  Edit
-                </button>
-              </>
-            )}
-          </div>
-          <div className="text-gray-500 text-sm flex items-center gap-1">
-            <span role="img" aria-label="coin">
-              🪙
-            </span>{" "}
-            {totalUserPoints.toLocaleString()} pts
+    // Top part of the same code...
+
+<div className="min-h-screen bg-gradient-to-br from-[#0d0221] to-[#1a033b] text-white p-4 md:p-8 font-sans">
+  <div className="max-w-6xl mx-auto">
+    {/* Profile Banner */}
+    <div
+      className="relative w-full h-40 md:h-52 rounded-2xl mb-8 overflow-hidden bg-cover bg-center"
+      style={{
+        backgroundImage: `url('/img/banner-rect.png')`,
+      }}
+    >
+      {/* <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /> */}
+      <div className="absolute bottom-4 left-4 flex items-center gap-4 z-10">
+        <img
+          src={teamAvatar}
+          alt={teamName}
+          className="w-20 h-20 rounded-full border-4 border-purple-400 object-cover shadow-lg"
+        />
+        <div>
+          <div className="text-2xl md:text-3xl font-bold">{teamName}</div>
+          <div className="text-sm text-yellow-400 flex items-center gap-1 mt-1">
+            🪙 {totalUserPoints.toLocaleString()} pts
           </div>
         </div>
-        {/* Rank & Points */}
-        <div className="bg-white rounded-2xl shadow p-4 flex flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center flex-1">
-            <div className="text-xs text-gray-400">Rank</div>
-            <div className="text-lg font-bold text-purple-600">{rank}</div>
-          </div>
-          <div className="border-l h-8 mx-2" />
-          <div className="flex flex-col items-center flex-1">
-            <div className="text-xs text-gray-400">Weekly Points</div>
-            <div className="text-sm font-semibold text-gray-700">
-              🪙 {weeklyPoints.toLocaleString()} pts
+      </div>
+    </div>
+
+    {/* Main Content Grid */}
+    <div className="grid md:grid-cols-3 gap-6">
+      {/* Left Card */}
+      <div className="space-y-6">
+        {/* Rank + Weekly */}
+        <div className="bg-[#24124d] rounded-xl p-4 shadow-lg">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-sm text-gray-300">Rank</div>
+              <div className="text-xl font-bold text-yellow-300">#{rank}</div>
             </div>
-            {/* <button className="mt-1 px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full font-medium">View League</button> */}
-            {userLeagueUrl ? (
-              <button
-                onClick={() => navigate(userLeagueUrl)}
-                className="mt-1 px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full font-medium"
-              >
-                View League
-              </button>
-            ) : (
-              <span className="mt-1 text-xs text-gray-400">
-                No league joined
-              </span>
-            )}
+            <div className="border-l border-gray-500 h-10 mx-3"></div>
+            <div>
+              <div className="text-sm text-gray-300">Weekly Points</div>
+              <div className="text-base font-semibold">
+                🪙 {weeklyPoints.toLocaleString()}
+              </div>
+              {userLeagueUrl ? (
+                <button
+                  onClick={() => navigate(userLeagueUrl)}
+                  className="mt-1 px-3 py-1 text-xs bg-purple-700 hover:bg-purple-800 text-white rounded-full font-medium transition"
+                >
+                  View League
+                </button>
+              ) : (
+                <span className="mt-1 text-xs text-gray-400">
+                  No league joined
+                </span>
+              )}
+            </div>
           </div>
         </div>
-        {/* Team Stats */}
-        <div className="bg-white rounded-2xl shadow p-4 flex flex-col gap-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Total User Pts :</span>
-            <span className="font-semibold text-gray-800">
+
+        {/* Stats Card */}
+        <div className="bg-[#24124d] rounded-xl p-4 shadow-lg space-y-2 text-sm text-white">
+          <div className="flex justify-between">
+            <span>Total User Pts :</span>
+            <span>
               🪙{" "}
               {totalUserPoints >= 1000000
                 ? (totalUserPoints / 1000000).toFixed(2) + " Million"
                 : totalUserPoints.toLocaleString()}
             </span>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Members :</span>
-            <span className="font-semibold text-gray-800">
-              {members.length.toString().padStart(2, "0")}/07
-            </span>
+          <div className="flex justify-between">
+            <span>Members :</span>
+            <span>{members.length.toString().padStart(2, "0")}/07</span>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Type :</span>
-            <span className="font-semibold text-gray-800">{teamType}</span>
+          <div className="flex justify-between">
+            <span>Type :</span>
+            <span>{teamType}</span>
           </div>
           <div className="flex gap-2 mt-3">
             <button
-              className="flex-1 bg-purple-100 text-purple-700 font-semibold py-2 rounded-lg hover:bg-purple-200 transition"
+              className="flex-1 bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 rounded-lg transition"
               onClick={() => navigate("/create-team")}
             >
               Edit
             </button>
-            <button className="flex-1 bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-300 transition">
+            <button className="flex-1 bg-gray-700 text-white font-semibold py-2 rounded-lg hover:bg-gray-600 transition">
               Manage
             </button>
           </div>
         </div>
       </div>
-      {/* Right Side: Team Members */}
-      <div className="w-full md:w-2/3 flex flex-col gap-6 px-2">
-        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col gap-4">
-          {members.length === 0 ? (
-            <div className="text-gray-400 text-center py-8">
-              No team members found.
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {members.map((m, idx) => {
-                const artist = m.artistId || {};
-                return (
-                  <div
-                    key={artist._id || idx}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-gray-50 rounded-xl px-3 py-3 cursor-pointer hover:bg-purple-50 transition"
-                    onClick={() => navigate(`/artist/${artist._id}`)}
-                  >
-                    <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-0">
-                      <div
-                        className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg ${
-                          idx === 0
-                            ? "bg-yellow-400 text-white"
-                            : idx === 1
-                            ? "bg-gray-300 text-gray-700"
-                            : idx === 2
-                            ? "bg-orange-400 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {idx + 1}
-                      </div>
-                      {/* <img src={artist.image || '/logo192.png'} alt={artist.name || 'Artist'} className="w-12 h-12 rounded-full object-cover border-2 border-purple-300" /> */}
-                      <div>
-                        <div className="font-semibold text-gray-800 text-sm sm:text-base flex items-center flex-wrap gap-2">
-                          {artist.name || "Artist Name"}
-                          {m.category && (
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                m.category === "Legend"
-                                  ? "bg-purple-200 text-purple-700"
-                                  : m.category === "Trending"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : m.category === "Standard"
-                                  ? "bg-indigo-100 text-indigo-700"
-                                  : "bg-gray-200 text-gray-700"
-                              }`}
-                            >
-                              {m.category}
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {artist.genres && artist.genres.length > 0
-                            ? artist.genres.join(", ")
-                            : "No genres"}
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className="flex items-center justify-start sm:justify-end text-sm">
-                      <span className="text-yellow-500 font-bold flex items-center gap-1">
-                        <svg
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="inline"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        {artist.totalScore?.toLocaleString() || "0"} pts
-                      </span>
+      {/* Members Card */}
+      <div className="md:col-span-2 bg-[#24124d] rounded-xl p-4 sm:p-6 shadow-lg">
+        {members.length === 0 ? (
+          <div className="text-gray-400 text-center py-8">
+            No team members found.
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {members.map((m, idx) => {
+              const artist = m.artistId || {};
+              return (
+                <div
+                  key={artist._id || idx}
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-[#2e1a5d] hover:bg-[#3a2272] transition rounded-xl px-4 py-3 cursor-pointer"
+                  onClick={() => navigate(`/artist/${artist._id}`)}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm ${
+                        idx === 0
+                          ? "bg-yellow-400 text-white"
+                          : idx === 1
+                          ? "bg-gray-300 text-black"
+                          : idx === 2
+                          ? "bg-orange-400 text-white"
+                          : "bg-gray-600 text-white"
+                      }`}
+                    >
+                      {idx + 1}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-white text-sm flex items-center gap-2 flex-wrap">
+                        {artist.name || "Artist Name"}
+                        {m.category && (
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                              m.category === "Legend"
+                                ? "bg-purple-600 text-white"
+                                : m.category === "Trending"
+                                ? "bg-blue-600 text-white"
+                                : m.category === "Breakout"
+                                ? "bg-pink-600 text-white"
+                                : "bg-gray-500 text-white"
+                            }`}
+                          >
+                            {m.category}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-300">
+                        {artist.genres && artist.genres.length > 0
+                          ? artist.genres.join(", ")
+                          : "No genres"}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+
+                  <div className="flex items-center justify-end text-sm mt-2 sm:mt-0">
+                    <span className="text-yellow-400 font-bold flex items-center gap-1">
+                      🪙 {artist.totalScore?.toLocaleString() || "0"} pts
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 

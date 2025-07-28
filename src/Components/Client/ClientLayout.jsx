@@ -15,7 +15,7 @@ const ClientLayout = () => {
           isOpen={sidebarOpen}
           setIsOpen={setSidebarOpen}
         />
-        <main className="flex-1 w-full min-w-0 p-2 sm:p-4 md:p-6">
+        <main className="flex-1 w-full min-w-0 p-2 sm:p-4 md:p-6 bg-[#070a29]">
           <Outlet />
         </main>
       </div>

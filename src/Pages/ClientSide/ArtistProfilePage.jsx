@@ -29,7 +29,7 @@ const ArtistProfilePage = () => {
   if (error) return <div className="flex justify-center items-center min-h-screen bg-gray-50 text-red-500">{error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row gap-6 p-4 md:p-8">
+    <div className="min-h-screen flex flex-col md:flex-row gap-6 p-4 md:p-8">
       <div className="w-full md:w-1/3 flex flex-col gap-6">
         <ArtistProfileLeft artist={artist} />
       </div>

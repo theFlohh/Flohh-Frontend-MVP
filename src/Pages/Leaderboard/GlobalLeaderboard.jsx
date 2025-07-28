@@ -42,15 +42,15 @@ const GlobalLeaderboard = () => {
       </div>
 
       {loading ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center text-white">Loading...</p>
       ) : (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="shadow-md rounded-lg overflow-hidden">
           <table className="w-full table-auto">
-            <thead className="bg-gray-100">
+            <thead>
               <tr>
-                <th className="p-3 text-left">Rank</th>
-                <th className="p-3 text-left">User</th>
-                <th className="p-3 text-right">Points</th>
+                <th className="p-3 text-white text-left">Rank</th>
+                <th className="p-3   text-white text-left">User</th>
+                <th className="p-3 text-white text-right">Points</th>
               </tr>
             </thead>
             <tbody>
@@ -59,9 +59,9 @@ const GlobalLeaderboard = () => {
                   key={user._id}
                   className="border-b hover:bg-gray-50 transition"
                 >
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3">{user.name || user.email}</td>
-                  <td className="p-3 text-right">{user.totalPoints.toLocaleString()}</td>
+                  <td className="p-3 text-white">{index + 1}</td>
+                  <td className="p-3 text-white">{user.name || user.email}</td>
+                  <td className="p-3  text-white text-right">{user.totalPoints.toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>

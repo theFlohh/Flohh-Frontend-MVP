@@ -1,0 +1,115 @@
+import React, { useEffect, useState } from "react";
+import { fetchDraftableArtists } from "../../Services/Api";
+import { useNavigate } from "react-router-dom";
+const standardImages = [
+  "/img/t1.png",
+  "/img/t2.png",
+  "/img/t3.png",
+  "/img/t4.png",
+  "/img/t5.png",
+  "/img/t6.png",
+];
+
+const pageSize = 9;
+
+const StandardPool = () => {
+  const [artists, setArtists] = useState([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    const getArtists = async () => {
+      const data = await fetchDraftableArtists("Standard");
+      setArtists(data);
+      setLoading(false);
+    };
+    getArtists();
+  }, []);
+
+  const filtered = artists.filter(a =>
+    a.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+  return (
+    <div className="p-4 bg-gradient-to-br from-[#2d2346] to-[#1a1333] min-h-screen">
+        <button
+  className="mb-4 flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-[#1F223E] font-semibold shadow transition"
+  onClick={() => navigate(-1)}
+>
+  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+  Back
+</button>
+      <h2 className="text-2xl font-bold text-white mb-4">Standard Artists Pool</h2>
+      {/* Search */}
+      <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search artist..."
+          className="px-4 py-2 rounded-full w-full sm:w-80 bg-[#1F223E] text-white border border-purple-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+          value={search}
+          onChange={e => { setSearch(e.target.value); setPage(1); }}
+        />
+      </div>
+      {/* Cards Grid */}
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[200px]">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {paginated.length === 0 ? (
+            <div className="text-white text-center col-span-full">No artists found.</div>
+          ) : (
+            paginated.map((artist, idx) => (
+              <div
+                key={artist._id || artist.id}
+                className="rounded-xl shadow-lg hover:shadow-xl transition flex flex-col items-center relative cursor-pointer bg-[#1F223E] border border-purple-700/30 p-4"
+                onClick={() => navigate(`/artist/${artist._id || artist.id}`)}
+              >
+                {artist.legendary && (
+                  <span className="absolute top-2 left-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                    Legendary
+                  </span>
+                )}
+                <img
+                  src={standardImages[idx % standardImages.length]}
+                  alt={artist.name}
+                  className="w-32 h-32 object-cover rounded-full mb-3 border-2 border-purple-500"
+                />
+                <h3 className="font-semibold text-white text-base mb-1 text-center">
+                  {artist.name}
+                </h3>
+                <p className="text-xs text-purple-300 text-center mb-2">
+                  {artist.bio || "Standard Artist"}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-2 mt-8">
+        <button
+          className="px-4 py-2 rounded-full bg-purple-600 text-white font-semibold shadow hover:bg-purple-700 transition disabled:opacity-50"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </button>
+        <span className="text-white font-bold px-3 py-2 rounded-full bg-[#1F223E] border border-purple-700/30">
+          {page}
+        </span>
+        <button
+          className="px-4 py-2 rounded-full bg-purple-600 text-white font-semibold shadow hover:bg-purple-700 transition disabled:opacity-50"
+          disabled={page * pageSize >= filtered.length}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default StandardPool;

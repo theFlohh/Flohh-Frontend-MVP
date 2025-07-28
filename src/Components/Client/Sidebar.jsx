@@ -4,9 +4,9 @@ import { FiX, FiLogOut, FiHome, FiUser, FiGrid, FiSettings, FiHelpCircle, FiTren
 import { useAuth } from "../../Context/AuthContext";
 
 const navItems = [
-  { path: "/", label: "Dashboard", icon: <FiGrid /> },
   { path: "/my-team", label: "My Team", icon: <FiHome /> },
   { path: "/profile", label: "Artists", icon: <FiUser /> },
+  { path: "/", label: "Dashboard", icon: <FiGrid /> },
   { path: "/settings", label: "Settings", icon: <FiSettings /> },
   { path: "/support", label: "Support", icon: <FiHelpCircle /> },
     { path: "/leaderboard/global", label: "Global Leaderboard", icon: <FiTrendingUp /> },
@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Mobile Sidebar Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 z-30 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-[#1F223E] bg-opacity-40 z-30 transition-opacity duration-300 md:hidden ${
           isOpen ? "block" : "hidden"
         }`}
         onClick={() => setIsOpen(false)}
@@ -45,51 +45,75 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       />
       {/* Sidebar Panel */}
       <aside
-        className={`h-full w-64 bg-white shadow-lg z-40 transform transition-transform duration-300 ease-in-out
-          fixed top-0 left-0 md:static md:translate-x-0 md:block
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        `}
-        style={{ minHeight: '100vh' }}
+        className={`w-64 shadow-lg z-40 bg-[#1F223E] flex flex-col justify-between fixed top-0 left-0 md:static md:translate-x-0 md:block ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="flex items-center justify-between px-4 py-4 ">
-          {/* <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2"> */}
-            {/* <img src="/logo192.png" alt="logo" className="w-6 h-6" /> */}
-            {/* Artist Lineup. */}
-          {/* </h2> */}
-          <button className="md:hidden text-gray-600" onClick={() => setIsOpen(false)}>
-            <FiX size={24} />
-          </button>
+        <div>
+          <div className="flex items-center justify-between px-4 py-4 ">
+            <button className="md:hidden text-white" onClick={() => setIsOpen(false)}>
+              <FiX size={24} />
+            </button>
+          </div>
+          {/* Nav section scrollable */}
+          <nav className="px-4 space-y-2 flex-1 text-white overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
+            {/* First 3 nav items */}
+            {navItems.slice(0, 3).map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
+                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ))}
+            {/* Divider line */}
+            <div className="my-3 mx-4 border-t border-white opacity-60" />
+            {/* Next 2 nav items */}
+            {navItems.slice(3, 5).map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
+                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ))}
+            {/* Divider line */}
+            <div className="my-3 mx-4 border-t border-white opacity-60" />
+          </nav>
         </div>
-        <nav className="px-4  space-y-2 flex-1">
-          {navItems.map((item) => (
+        {/* Bottom nav items and profile/logout */}
+        <div className="px-4 space-y-2 mb-4">
+          {navItems.slice(5).map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md transition text-gray-700 hover:bg-gray-100 ${
-                location.pathname === item.path ? "bg-gray-100 font-semibold" : ""
-              }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
+                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
+                }`}
               onClick={() => setIsOpen(false)}
             >
               {item.icon}
               {item.label}
             </Link>
           ))}
-        </nav>
-        {/* User Profile Section */}
-        <div className="px-4 pb-6 mt-auto">
-          <div className="flex items-center gap-3 mb-3 bg-gray-100 p-2 rounded-lg">
-            <img src={userAvatar} alt="User" className="w-8 h-8 rounded-full border-2 border-purple-400" />
-            <div>
-              <div className="text-gray-800 font-semibold text-sm">{userName}</div>
-              <div className="text-gray-400 text-xs">{userRole}</div>
+          {/* User Profile Section */}
+          <div className="pb-6 pt-2">
+            <div className="flex items-center gap-3 mb-3 p-2 rounded-lg">
+              <img src={userAvatar} alt="User" className="w-8 h-8 rounded-full border-2 border-purple-400" />
+              <div>
+                <div className="text-white font-semibold text-sm">{userName}</div>
+                <div className="text-gray-400 text-xs">{userRole}</div>
+              </div>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center px-3 py-2 bg-purple-500 text-white rounded-md hover:bg-red-600 transition"
-          >
-            <FiLogOut className="mr-2" /> Logout
-          </button>
         </div>
       </aside>
     </>

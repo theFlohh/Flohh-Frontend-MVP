@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { fetchDraftableArtists } from "../../Services/Api";
 import { useNavigate } from "react-router-dom";
 
+const breakoutImages = [
+  "/img/b1.png",
+  "/img/b2.png",
+  "/img/b3.png",
+  "/img/b4.png",
+];
+
 const BreakOut = () => {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,40 +37,64 @@ const BreakOut = () => {
   }
 
   return (
-    <section className="bg-gray-50 rounded-xl p-6 shadow mb-8">
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            Breakout Artists <span role="img" aria-label="star">🌟</span>
-          </h2>
-          <p className="text-gray-500 text-sm mt-1">
-            Discover all Artists with their profiles & stats
-          </p>
-        </div>
-        <a href="#" className="text-blue-600 hover:underline font-medium text-sm">View all</a>
+    <section className="rounded-xl p-6">
+      <div>
+        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+          Breakout Artists{" "}
+          <span role="img" aria-label="star">
+            🌟
+          </span>
+        </h2>
+        <p className="text-purple-200 text-sm mt-1">
+          Discover all Artists with their profiles & stats
+        </p>
       </div>
-      <div className="flex gap-6 overflow-x-auto pb-2 scrollbar-hide">
-        {artists.length === 0 ? (
-          <div className="text-gray-400 text-center w-full">No breakout artists found.</div>
-        ) : (
-          artists.map((artist) => (
+      {/* Cards */}
+      <div className="flex gap-6 align-center overflow-x-auto pb-2 scrollbar-hide mt-4 justify-center">
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide mt-4 w-4/5">
+          {artists.map((artist, idx) => (
             <div
               key={artist._id || artist.id}
-              className="min-w-[170px] flex flex-col items-center cursor-pointer"
+              className="min-w-[200px] rounded-xl shadow-lg hover:shadow-xl transition flex flex-col items-center relative cursor-pointer"
               onClick={() => navigate(`/artist/${artist._id || artist.id}`)}
             >
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-blue-200 mb-3 flex items-center justify-center bg-white">
-                <img
-                  src={artist.img || artist.image || "https://randomuser.me/api/portraits/men/38.jpg"}
-                  alt={artist.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-800 text-base md:text-lg mb-0.5 text-center">{artist.name}</h3>
-              <p className="text-xs text-gray-500 text-center mb-2">{artist.type || artist.category || artist.tier}</p>
+              {artist.legendary && (
+                <span className="absolute top-2 left-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                  Legendary
+                </span>
+              )}
+              <img
+                src={breakoutImages[idx % breakoutImages.length]}
+                alt={artist.name}
+                className="w-40 h-40 object-cover rounded-lg mb-3 border-2 border-purple-500"
+              />
+              <h3 className="font-semibold text-white text-base mb-1 text-center">
+                {artist.name}
+              </h3>
+              <p className="text-xs text-purple-300 text-center mb-2">
+                {artist.bio || "Discover all Artists with their profiles & stats"}
+              </p>
             </div>
-          ))
-        )}
+          ))}
+        </div>
+        {/* Desktop: See Full Pool card */}
+        <div className="hidden md:flex mt-2">
+          <div
+            className="min-w-[200px] h-[200px] flex items-center justify-center rounded-xl border border-purple-700/30 bg-[#1F223E] text-white font-semibold text-lg cursor-pointer hover:bg-purple-700/10 transition"
+            onClick={() => navigate("/breakout-pool")}
+          >
+            See Full Pool
+          </div>
+        </div>
+      </div>
+      {/* Mobile: View All button */}
+      <div className="flex md:hidden justify-end mt-4">
+        <button
+          className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-400 text-white font-semibold text-sm shadow hover:from-purple-600 hover:to-pink-500 transition"
+          onClick={() => navigate("/breakout-pool")}
+        >
+          View All
+        </button>
       </div>
     </section>
   );
