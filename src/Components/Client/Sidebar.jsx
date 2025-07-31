@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiX, FiLogOut, FiHome, FiUser, FiGrid, FiSettings, FiHelpCircle, FiTrendingUp, FiUsers } from "react-icons/fi";
+import {
+  FiX,
+  FiLogOut,
+  FiHome,
+  FiUser,
+  FiGrid,
+  FiSettings,
+  FiHelpCircle,
+  FiTrendingUp,
+  FiUsers,
+} from "react-icons/fi";
 import { useAuth } from "../../Context/AuthContext";
 
 const navItems = [
@@ -9,8 +19,16 @@ const navItems = [
   { path: "/", label: "Dashboard", icon: <FiGrid /> },
   { path: "/settings", label: "Settings", icon: <FiSettings /> },
   { path: "/support", label: "Support", icon: <FiHelpCircle /> },
-    { path: "/leaderboard/global", label: "Global Leaderboard", icon: <FiTrendingUp /> },
-  { path: "/leaderboard/friend", label: "Friends Leaderboard", icon: <FiUsers /> },
+  {
+    path: "/leaderboard/global",
+    label: "Global Leaderboard",
+    icon: <FiTrendingUp />,
+  },
+  {
+    path: "/leaderboard/friend",
+    label: "Friends Leaderboard",
+    icon: <FiUsers />,
+  },
 ];
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
@@ -45,23 +63,33 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       />
       {/* Sidebar Panel */}
       <aside
-        className={`w-64 shadow-lg z-40 bg-[#1F223E] flex flex-col justify-between fixed top-0 left-0 md:static md:translate-x-0 md:block ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`w-64 shadow-lg z-40 bg-[#1F223E] flex flex-col justify-between fixed top-0 left-0 md:static md:translate-x-0 md:block ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div>
           <div className="flex items-center justify-between px-4 py-4 ">
-            <button className="md:hidden text-white" onClick={() => setIsOpen(false)}>
+            <button
+              className="md:hidden text-white"
+              onClick={() => setIsOpen(false)}
+            >
               <FiX size={24} />
             </button>
           </div>
           {/* Nav section scrollable */}
-          <nav className="px-4 space-y-2 flex-1 text-white overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
+          <nav
+            className="px-4 space-y-2 flex-1 text-white overflow-y-auto"
+            style={{ maxHeight: "calc(100vh - 220px)" }}
+          >
             {/* First 3 nav items */}
             {navItems.slice(0, 3).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
-                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
+                  location.pathname === item.path
+                    ? "bg-gray-100 font-semibold text-black"
+                    : ""
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -77,7 +105,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
-                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
+                  location.pathname === item.path
+                    ? "bg-gray-100 font-semibold text-black"
+                    : ""
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -95,21 +125,33 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 px-3 py-2 rounded-full transition hover:bg-gray-100 hover:text-black ${
-                  location.pathname === item.path ? "bg-gray-100 font-semibold text-black" : ""
-                }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-full transition 
+      text-white hover:bg-gray-100 hover:text-black
+      ${
+        location.pathname === item.path
+          ? "bg-gray-100 font-semibold text-black"
+          : "text-red-600"
+      }
+    `}
               onClick={() => setIsOpen(false)}
             >
               {item.icon}
               {item.label}
             </Link>
           ))}
+
           {/* User Profile Section */}
           <div className="pb-6 pt-2">
             <div className="flex items-center gap-3 mb-3 p-2 rounded-lg">
-              <img src={userAvatar} alt="User" className="w-8 h-8 rounded-full border-2 border-purple-400" />
+              <img
+                src={userAvatar}
+                alt="User"
+                className="w-8 h-8 rounded-full border-2 border-purple-400"
+              />
               <div>
-                <div className="text-white font-semibold text-sm">{userName}</div>
+                <div className="text-white font-semibold text-sm">
+                  {userName}
+                </div>
                 <div className="text-gray-400 text-xs">{userRole}</div>
               </div>
             </div>

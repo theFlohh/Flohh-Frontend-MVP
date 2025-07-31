@@ -47,9 +47,11 @@ const LegendArtist = () => {
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2">
           Legend Artists{" "}
-          <span role="img" aria-label="medal">
-            💎
-          </span>
+          <img
+            src="/img/medal-yellow.png"
+            alt="Legend Icon"
+            className="w-5 h-5"
+          />
         </h2>
         <p className="text-purple-200 text-sm mt-1">
           Discover all Artists with their profiles & stats
@@ -57,41 +59,52 @@ const LegendArtist = () => {
       </div>
       {/* Cards */}
       <div className="flex gap-6 align-center overflow-x-auto pb-2 scrollbar-hide mt-4 justify-center">
-      <div className="flex gap-4  overflow-x-auto pb-2 scrollbar-hide mt-4 w-4/5">
-        {artists.map((artist, idx) => (
-          <div
-            key={artist._id || artist.id}
-            className="min-w-[200px] rounded-xl shadow-lg hover:shadow-xl transition  flex flex-col items-center relative cursor-pointer"
-            onClick={() => navigate(`/artist/${artist._id || artist.id}`)}
-          >
-            {artist.legendary && (
-              <span className="absolute top-2 left-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">
-                Legendary
-              </span>
-            )}
-            <img
-              src={legendImages[idx % legendImages.length]}
-              alt={artist.name}
-              className="w-40 h-40 object-cover rounded-lg mb-3 border-2 border-purple-500"
-            />
-            <h3 className="font-semibold text-white text-base mb-1 text-center">
-              {artist.name}
-            </h3>
-            <p className="text-xs text-purple-300 text-center mb-2">
-              {artist.bio || "Discover all Artists with their profiles & stats"}
-            </p>
-          </div>
-        ))}
-        {/* Desktop: See Full Pool card */}
-      </div>
-      <div className="hidden md:flex mt-2">
-        <div
-          className="min-w-[200px] h-[200px] flex items-center justify-center rounded-xl border border-purple-700/30 bg-[#1F223E] text-white font-semibold text-lg cursor-pointer hover:bg-purple-700/10 transition"
-          onClick={() => navigate("/legend-pool")}
-        >
-          See Full Pool
+        <div className="flex gap-4  overflow-x-auto pb-2 scrollbar-hide mt-4 w-4/5">
+          {artists.map((artist, idx) => (
+            <div
+              key={artist._id || artist.id}
+              className="min-w-[200px] rounded-xl shadow-lg hover:shadow-xl transition  flex flex-col items-center relative cursor-pointer"
+              onClick={() => navigate(`/artist/${artist._id || artist.id}`)}
+            >
+              {artist.legendary && (
+                <span className="absolute top-2 left-2 bg-yellow-200 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                  Legendary
+                </span>
+              )}
+              {/* <img
+                src="/img/medal-yellow.png"
+                alt="Legend"
+                className="absolute top-2 left-2 w-5 h-5"
+              /> */}
+              <img
+                src={legendImages[idx % legendImages.length]}
+                alt={artist.name}
+                className="w-40 h-40 object-cover rounded-lg mb-3 border-2 border-purple-500"
+              />
+              <img
+                src="/img/medal-yellow.png"
+                alt="Legend"
+                className="absolute top-2 left-7 w-5 h-5"
+              />
+              <h3 className="font-semibold text-white text-base mb-1 text-center">
+                {artist.name}
+              </h3>
+              <p className="text-xs text-purple-300 text-center mb-2">
+                {artist.bio ||
+                  "Discover all Artists with their profiles & stats"}
+              </p>
+            </div>
+          ))}
+          {/* Desktop: See Full Pool card */}
         </div>
-      </div>
+        <div className="hidden md:flex mt-2">
+          <div
+            className="min-w-[200px] h-[200px] flex items-center justify-center rounded-xl border border-purple-700/30 bg-[#1F223E] text-white font-semibold text-lg cursor-pointer hover:bg-purple-700/10 transition"
+            onClick={() => navigate("/legend-pool")}
+          >
+            See Full Pool
+          </div>
+        </div>
       </div>
       {/* Mobile: View All button */}
       <div className="flex md:hidden justify-end mt-4">

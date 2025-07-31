@@ -47,9 +47,11 @@ const TrendingArtist = () => {
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2">
           Trending Artists{" "}
-          <span role="img" aria-label="fire">
-            🔥
-          </span>
+          <img
+            src="/img/medal-red.png"
+            alt="Legend Icon"
+            className="w-5 h-5"
+          />
         </h2>
         <p className="text-purple-200 text-sm mt-1">
           Discover all Artists with their profiles & stats

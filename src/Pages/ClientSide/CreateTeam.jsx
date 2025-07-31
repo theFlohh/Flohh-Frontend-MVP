@@ -18,7 +18,6 @@ const TIERS = [
 ];
 
 const CreateTeam = () => {
-  
   const [artists, setArtists] = useState({
     Legend: [],
     Trending: [],
@@ -45,7 +44,7 @@ const CreateTeam = () => {
   const [statusType, setStatusType] = useState("success");
   const [statusMsg, setStatusMsg] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
+
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
@@ -197,28 +196,45 @@ const CreateTeam = () => {
     }
   };
 
-  const DraftBanner = ({ minutes }) => (
-    <div className="relative rounded-2xl overflow-hidden mb-6 shadow-lg">
-      <div className="flex flex-col sm:flex-row items-center justify-between bg-gradient-to-r from-[#7c3aed] via-[#a78bfa] to-[#f3e8ff] px-4 py-3 sm:px-6 sm:py-4">
-        <div className="flex-1">
-          <div className="text-xl sm:text-2xl font-bold text-white mb-1">
-            Draft opens in {minutes} minutes
+  const DraftBanner = ({ minutes }) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+
+    const formatTime = () => {
+      if (hours > 0 && remainingMinutes > 0) {
+        return `${hours} hour${
+          hours > 1 ? "s" : ""
+        } ${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`;
+      } else if (hours > 0) {
+        return `${hours} hour${hours > 1 ? "s" : ""}`;
+      } else {
+        return `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`;
+      }
+    };
+
+    return (
+      <div className="relative rounded-2xl overflow-hidden mb-6 shadow-lg">
+        <div className="flex flex-col sm:flex-row items-center justify-between bg-gradient-to-r from-[#7B4DFE] via-[#7B4DFE] to-[#B393FE] px-4 py-3 sm:px-6 sm:py-4 h-[130px] sm:h-[100px]">
+          <div className="flex-1">
+            <div className="text-xl sm:text-2xl text-white mb-1">
+              Draft opens in {formatTime()}
+            </div>
+            <div className="text-purple-100 text-sm sm:text-sm">
+              Only {formatTime()} stand between you and your dream team. Make
+              those picks count when the draft begins.
+            </div>
           </div>
-          <div className="text-purple-100 text-xs sm:text-sm font-medium">
-            Only {minutes} Minutes Stand Between You And Your Dream Team. Make
-            Those Picks Count When The Draft Begins.
+          <div className="flex-shrink-0 mt-3 sm:mt-0 sm:ml-6">
+            <img
+              src="/img/music.png"
+              alt="Music Banner"
+              className="w-20 h-20 sm:w-28 sm:h-28 object-contain"
+            />
           </div>
-        </div>
-        <div className="flex-shrink-0 mt-3 sm:mt-0 sm:ml-6">
-          <img
-            src="/img/music.png"
-            alt="Music Banner"
-            className="w-20 h-20 sm:w-28 sm:h-28 object-contain"
-          />
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row gap-6 p-4 md:p-8">
@@ -262,7 +278,7 @@ const CreateTeam = () => {
         {TIERS.map((tier) => (
           <div key={tier.value}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-lg font-semibold text-white flex items-center">
+              <h3 className="text-xl font-bold text-white flex items-center">
                 {tier.label}
                 {!tier.required && (
                   <span className="text-sm text-gray-500 font-normal ml-2">
@@ -283,7 +299,7 @@ const CreateTeam = () => {
               {artists[tier.value].map((artist) => (
                 <div
                   key={artist._id}
-                  className={`min-w-[160px] rounded-lg shadow hover:shadow-lg transition p-3 flex flex-col items-center relative cursor-pointer group ${
+                  className={`min-w-[160px] rounded-lg shadow hover:shadow-lg transition p-3 flex flex-col items-center relative cursor-pointer group bg-[#1f223e] h-fit ${
                     locked ? "opacity-60 pointer-events-none" : ""
                   }`}
                   onClick={(e) => {
@@ -291,19 +307,36 @@ const CreateTeam = () => {
                     navigate(`/artist/${artist._id}`);
                   }}
                 >
+                  {/* Favorite PNG Icon (Top-left) */}
+                  <button
+                    className="absolute top-2 left-2 z-10 bg-white rounded-full p-1 shadow hover:bg-red-100 transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Favourite clicked");
+                    }}
+                    title="Add to Favourites"
+                  >
+                    <img src="/img/heart.png" alt="fav" className="w-4 h-4" />
+                  </button>
+
                   <img
                     src={artist.image || "/logoflohh.png"}
                     alt={artist.name}
-                    className="w-20 h-20 object-cover rounded-md mb-2 border border-gray-200"
+                    className="w-36 h-36 object-cover rounded-md mb-2 border border-gray-200"
                   />
-                  <h4 className="font-semibold text-white text-base mb-1 text-center">
-                    {artist.name}
-                  </h4>
-                  <p className="text-xs text-gray-500 text-center mb-2">
-                    {artist.type || tier.label} Artist
-                  </p>
+                  <div className="flex w-full items-center justify-between ">
+                  <div className="text-left">
+                    <h4 className="font-semibold text-white text-base mb-1 flex items-center justify-between gap-1">
+                      {artist.name}
+                    </h4>
+
+                    <p className="text-xs text-gray-500  mb-2 ">
+                      {artist.type || tier.label} Artist
+                    </p>
+                  </div>
+
                   <button
-                    className={`bg-purple-500 hover:bg-purple-600 text-white rounded-full p-2 shadow transition absolute top-2 right-2 z-10 cursor-pointer`}
+                    className="ml-1"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleSelect(tier.value, artist);
@@ -313,22 +346,16 @@ const CreateTeam = () => {
                       selected[tier.value].length >= tier.max ||
                       selected[tier.value].find((a) => a._id === artist._id)
                     }
+                    title="Add to team"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
+                    {/* Plus PNG icon next to name */}
+                    <img
+                      src="/img/add-circle.png"
+                      alt="add"
+                      className="w-4 h-4"
+                    />
                   </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -359,39 +386,38 @@ const CreateTeam = () => {
                   {selected[tier.value].length}/{tier.max}
                 </span>
               </div>
-              {selected[tier.value].length === 0 ? (
-                <div className="text-gray-300 text-sm italic">
-                  {tier.required ? "Select Artist" : "Optional - Select Artist"}
-                </div>
-              ) : (
-                selected[tier.value].map((artist) => (
-                  <div
-                    key={artist._id}
-                    className={`flex items-center justify-between rounded-lg p-2 mb-1 ${
-                      locked ? "bg-gray-100" : "bg-[#1F223E]"
-                    } ${locked ? "opacity-60" : ""}`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={artist.image || "/logoflohh.png"}
-                        alt={artist.name}
-                        className="w-8 h-8 rounded-full object-cover border border-gray-300"
-                      />
-                      <div>
-                        <div className="text-white font-semibold text-xs">
-                          {artist.name}
-                        </div>
-                        <div className="text-gray-500 text-xs">
-                          {artist.type || tier.label} Artist
-                        </div>
+              {selected[tier.value].map((artist) => (
+                <div
+                  key={artist._id}
+                  className={`group relative flex items-center rounded-lg overflow-hidden mb-2 transition-all duration-300 ${
+                    locked ? "bg-gray-100 opacity-60" : "bg-[#1F223E]"
+                  }`}
+                >
+                  {/* Content Section */}
+                  <div className="flex items-center gap-6 p-2 flex-grow z-10">
+                    <img
+                      src={artist.image || "/logoflohh.png"}
+                      alt={artist.name}
+                      className="w-16 h-16 rounded-sm object-cover border border-gray-300"
+                    />
+                    <div className="flex flex-col flex-grow">
+                      <div className="text-white font-semibold text-xl">
+                        {artist.name}
+                      </div>
+                      <div className="text-gray-500 text-xs">
+                        {artist.type || tier.label} Artist
                       </div>
                     </div>
+                  </div>
+
+                  {/* Delete Button - Slide in from right on hover */}
+                  {/* Delete Button - Slide in from right on hover */}
+                  {/* Delete Button - Slide in from right on hover */}
+                  <div className="absolute right-0 top-0 h-full z-20 transition-transform duration-300 transform translate-x-full group-hover:translate-x-0">
                     <button
-                      className={`bg-red-500 ${
-                        locked
-                          ? "opacity-50 cursor-not-allowed"
-                          : "hover:bg-red-600"
-                      } text-white rounded-full p-1 transition cursor-pointer`}
+                      className={`h-full flex items-center justify-center bg-red-500 hover:bg-red-600 text-white px-5 rounded-l-lg transition-all ${
+                        locked ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                       onClick={() =>
                         !locked && handleRemove(tier.value, artist._id)
                       }
@@ -402,24 +428,25 @@ const CreateTeam = () => {
                           : "Remove"
                       }
                     >
+                      {/* New Trash Icon */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5"
                         fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth={2}
                         stroke="currentColor"
-                        className="w-4 h-4"
+                        strokeWidth="2"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
+                          d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-1 4v10m-4-10v10m-4-10v10m1 4h6a2 2 0 002-2V6H5v14a2 2 0 002 2z"
                         />
                       </svg>
                     </button>
                   </div>
-                ))
-              )}
+                </div>
+              ))}
             </div>
           ))}
           <button
@@ -444,22 +471,21 @@ const CreateTeam = () => {
         />
       )}
       {showConfirmModal && (
-  <ConfirmModal
-    selectedArtists={[
-      ...selected.Legend,
-      ...selected.Trending,
-      ...selected.Breakout,
-      ...selected.Standard,
-    ]}
-    onConfirm={() => {
-      setShowConfirmModal(false);
-      handleSave(); // This is your original save logic
-    }}
-    onCancel={() => setShowConfirmModal(false)}
-  />
-)}
+        <ConfirmModal
+          selectedArtists={[
+            ...selected.Legend,
+            ...selected.Trending,
+            ...selected.Breakout,
+            ...selected.Standard,
+          ]}
+          onConfirm={() => {
+            setShowConfirmModal(false);
+            handleSave(); // This is your original save logic
+          }}
+          onCancel={() => setShowConfirmModal(false)}
+        />
+      )}
     </div>
-    
   );
 };
 
@@ -536,6 +562,5 @@ const StatusModal = ({ type, message, onClose }) => (
     `}</style>
   </div>
 );
-
 
 export default CreateTeam;

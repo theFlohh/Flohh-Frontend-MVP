@@ -41,9 +41,11 @@ const BreakOut = () => {
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2">
           Breakout Artists{" "}
-          <span role="img" aria-label="star">
-            🌟
-          </span>
+          <img
+            src="/img/medal-purple.png"
+            alt="Legend Icon"
+            className="w-5 h-5"
+          />
         </h2>
         <p className="text-purple-200 text-sm mt-1">
           Discover all Artists with their profiles & stats
@@ -67,6 +69,11 @@ const BreakOut = () => {
                 src={breakoutImages[idx % breakoutImages.length]}
                 alt={artist.name}
                 className="w-40 h-40 object-cover rounded-lg mb-3 border-2 border-purple-500"
+              />
+              <img
+                src="/img/medal-purple.png"
+                alt="Legend"
+                className="absolute top-2 left-7 w-5 h-5"
               />
               <h3 className="font-semibold text-white text-base mb-1 text-center">
                 {artist.name}
