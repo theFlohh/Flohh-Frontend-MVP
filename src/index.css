@@ -4,15 +4,15 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 .input {
@@ -49,3 +49,139 @@ code {
   }
 }
 
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(44, 34, 70, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  padding: 2rem !important;
+  max-width: 510px;
+  /* height: 870px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-login-stripes {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #1a1333 0%, #2d2346 100%);
+  position: relative;
+  overflow: hidden;
+}
+.bg-login-stripes::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(60, 20, 100, 0.3) 0px,
+    rgba(60, 20, 100, 0.3) 8px,
+    transparent 8px,
+    transparent 64px
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+.bg-login-stripes > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Font and spacing tweaks */
+.glass-card h2 {
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.glass-card p,
+.glass-card label,
+.glass-card input,
+.glass-card button,
+.glass-card span,
+.glass-card div,
+.glass-card a {
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+}
+.glass-card input {
+  height: 40px;
+  font-size: 15px;
+  background: rgba(44, 34, 70, 0.6);
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 0.2rem;
+}
+.glass-card input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #a78bfa;
+}
+.glass-card button[type="submit"] {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #a78bfa 0%, #f472b6 100%);
+  box-shadow: 0 2px 8px 0 rgba(167, 139, 250, 0.15);
+  margin-top: 0.5rem;
+}
+.glass-card button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.glass-card .space-y-3 > button {
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 999px;
+  height: 40px;
+}
+.glass-card .space-y-3 > button img {
+  margin-right: 6px;
+}
+.glass-card .text-xs {
+  font-size: 12px;
+}
+.glass-card .text-sm {
+  font-size: 14px;
+}
+.glass-card .my-2 {
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.glass-card .mt-2 {
+  margin-top: 0.7rem;
+}
+.glass-card .mb-1 {
+  margin-bottom: 0.3rem;
+}
+.glass-card .mb-2 {
+  margin-bottom: 0.7rem;
+}
+.glass-card .rounded-full {
+  border-radius: 999px !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .glass-card {
+    padding: 1.2rem !important;
+    max-width: 98vw;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}

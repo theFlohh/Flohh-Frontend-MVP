@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
@@ -16,13 +21,21 @@ import GlobalLeaderboard from "./Pages/Leaderboard/GlobalLeaderboard";
 import FriendsList from "./Pages/Leaderboard/FriendsList";
 import FriendLeaderboardView from "./Pages/Leaderboard/FriendLeaderboardView";
 import CreateFriendLeaderboard from "./Pages/Friends/CreateFriendLeaderboard";
-
+import ComingSoonCard from "./Pages/Settings/Setting";
+import LegendPool from "./Pages/ClientSide/LegendPool";
+import StandardPool from "./Pages/ClientSide/StandardPoll";
+import BreakoutPool from "./Pages/ClientSide/BreakoutPool";
+import TrendingPool from "./Pages/ClientSide/TrendingPool";
 function AppRoutes() {
   const { user, token, loading } = useAuth();
   const role = user?.role;
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (!token || !role) {
@@ -62,8 +75,20 @@ function AppRoutes() {
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="/leaderboard/global" element={<GlobalLeaderboard />} />
           <Route path="/leaderboard/friend" element={<FriendsList />} />
-          <Route path="/leaderboard/friends/create" element={<CreateFriendLeaderboard />} />
-          <Route path="/leaderboard/friend/:id" element={<FriendLeaderboardView />} />
+          <Route
+            path="/leaderboard/friends/create"
+            element={<CreateFriendLeaderboard />}
+          />
+          <Route
+            path="/leaderboard/friend/:id"
+            element={<FriendLeaderboardView />}
+          />
+          <Route path="/settings" element={<ComingSoonCard />} />
+          <Route path="/support" element={<ComingSoonCard />} />
+          <Route path="/legend-pool" element={<LegendPool />} />
+          <Route path="/standard-pool" element={<StandardPool />} />
+          <Route path="/breakout-pool" element={<BreakoutPool />} />
+          <Route path="/trending-pool" element={<TrendingPool />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" />} />
@@ -73,11 +98,11 @@ function AppRoutes() {
 
 function App() {
   return (
-      <Router>
-    <AuthProvider>
+    <Router>
+      <AuthProvider>
         <AppRoutes />
-    </AuthProvider>
-      </Router>
+      </AuthProvider>
+    </Router>
   );
 }
 
