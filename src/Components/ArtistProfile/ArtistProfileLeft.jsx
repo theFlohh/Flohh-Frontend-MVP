@@ -5,14 +5,6 @@ import Chart from "react-apexcharts";
 const ArtistProfileLeft = ({ artist }) => {
   const navigate = useNavigate();
 
-  const topSongs = [
-    "Dil Niri Na Sune",
-    "Main Rang Sharbaton Ka",
-    "Piya O Re Piya",
-    "Tu Jaane Na",
-    "Haan Tha Pyar",
-  ];
-
   const chartOptions = {
     chart: {
       type: "bar",
@@ -23,40 +15,26 @@ const ArtistProfileLeft = ({ artist }) => {
         horizontal: false,
         borderRadius: 8,
         barHeight: "60%",
-          columnWidth: "35%", // Reduced bar width
-
+        columnWidth: "35%",
       },
     },
     xaxis: {
       categories: ["This Week", "Week 2", "Week 1"],
       labels: {
-        style: {
-          colors: ["#fff"],
-          fontSize: "12px",
-        },
+        style: { colors: ["#fff"], fontSize: "12px" },
       },
     },
     yaxis: {
       labels: {
-        style: {
-          colors: ["#fff"],
-          fontSize: "12px",
-        },
+        style: { colors: ["#fff"], fontSize: "12px" },
       },
     },
-    grid: {
-      show: false,
-    },
+    grid: { show: false },
     colors: ["#805AD5"],
-    tooltip: {
-      theme: "dark",
-    },
+    tooltip: { theme: "dark" },
     dataLabels: {
       enabled: true,
-      style: {
-        colors: ["#fff"],
-        fontSize: "12px",
-      },
+      style: { colors: ["#fff"], fontSize: "12px" },
     },
     fill: {
       type: "gradient",
@@ -70,14 +48,12 @@ const ArtistProfileLeft = ({ artist }) => {
   };
 
   const chartSeries = [
-    {
-      data: [100, 150, 155],
-    },
+    { data: [100, 150, 155] },
   ];
 
   return (
     <div className="bg-[#1F223E] rounded-2xl w-full max-w-xs flex flex-col items-center mx-auto md:mx-0 shadow-lg overflow-hidden px-4 pt-6 pb-4">
-      {/* Profile Image + Badge */}
+      {/* Profile Image */}
       <div className="relative">
         <img
           src={artist?.image || "/logoflohh.png"}
@@ -92,7 +68,7 @@ const ArtistProfileLeft = ({ artist }) => {
       </div>
 
       {/* Name and Type */}
-      <h2 className="text-3xl font-semibold text-white flex items-center gap-2 -mt-2">
+      <h2 className="text-3xl font-semibold text-white -mt-2">
         {artist?.name || "Artist Name"}
       </h2>
       <div className="text-sm text-white opacity-70 mb-3">
@@ -108,21 +84,13 @@ const ArtistProfileLeft = ({ artist }) => {
 
       {/* Trending Score */}
       <div className="w-full text-left mb-3">
-        <div className="text-lg text-white font-semibold my-3">
-          TRENDING SCORE
-        </div>
+        <div className="text-lg text-white font-semibold my-3">TRENDING SCORE</div>
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg w-full border border-[#353751] bg-[#2a2d48]">
-          <span className="text-lg">
-            <img
-              src="/img/noto_fire (1).png"
-              alt="fire"
-              className="w-10 h-10"
-            />
-          </span>
+          <img src="/img/noto_fire (1).png" alt="fire" className="w-10 h-10" />
           <span className="text-lg font-semibold text-white">
             Popularity Score #
-            <span className="text-white font-semibold ml-1">
-              {artist?.monthlyTotal ? artist.monthlyTotal : "No score"}
+            <span className="ml-1">
+              {artist?.monthlyTotal || "No score"}
             </span>
             <div className="text-[10px] text-purple-400 mt-1">
               Trending in ArtistView
@@ -131,27 +99,34 @@ const ArtistProfileLeft = ({ artist }) => {
         </div>
       </div>
 
-      {/* Top Songs (Static) */}
+      {/* Top Songs Dynamic */}
       <div className="w-full mb-4 border-b border-white pb-8">
         <div className="text-xl text-white font-semibold my-4">
           TOP SONGS
         </div>
-        <ul>
-          {topSongs.map((song, idx) => (
-            <li
-              key={idx}
-              className="flex items-center justify-between text-white text-lg font-medium px-3 cursor-pointer transition"
-            >
-              <span className="truncate">{`${idx + 1} ${song}`}</span>
-              <span className="text-gray-400">{">"}</span>
-            </li>
-          ))}
-        </ul>
+        {artist?.topTracks?.length > 0 ? (
+          <ul>
+            {artist.topTracks.map((track, idx) => (
+              <li
+                key={idx}
+                className="flex items-center justify-between text-white text-lg font-medium px-3 cursor-pointer hover:text-purple-400 transition"
+                onClick={() => window.open(track?.spotifyUrl, "_blank")}
+              >
+                <span className="truncate">{`${track.name}`}</span>
+                <span className="text-gray-400">{">"}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="text-gray-400 text-sm px-3">No top songs available</div>
+        )}
       </div>
 
       {/* Weekly Stats */}
       <div className="w-full">
-        <div className="text-xs text-white font-bold mb-3 tracking-wide">WEEKLY STATS</div>
+        <div className="text-xs text-white font-bold mb-3 tracking-wide">
+          WEEKLY STATS
+        </div>
         <div className="w-full h-[180px]">
           <Chart options={chartOptions} series={chartSeries} type="bar" height={180} />
         </div>

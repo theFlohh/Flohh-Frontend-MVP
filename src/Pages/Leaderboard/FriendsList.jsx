@@ -13,7 +13,7 @@ const rankIcons = [
   "/img/brozne.png",
 ];
 
-const FriendsList = () => {
+const FriendsList =() => {
   const [leaderboards, setLeaderboards] = useState([]);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);

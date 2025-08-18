@@ -81,19 +81,46 @@ export const submitDraft = async (draftedArtists, teamName) => {
   return data;
 };
 
-export const updateDraft = async (draftedArtists, teamName) => {
-  const { data } = await API.put('/draft/drafts/update', { draftedArtists, teamName });
+export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
+  const formData = new FormData();
+  formData.append("draftedArtists", JSON.stringify(draftedArtists));
+  formData.append("teamName", teamName);
+  
+  if (avatarFile) {
+    formData.append("avatar", avatarFile);
+  }
+
+  const { data } = await API.put('/draft/drafts/update', formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
+  
   return data;
 };
 
+export const fetchUserStats = async () => {
+  try {
+    const token = localStorage.getItem("token"); // if using JWT auth
+    const res = await axios.get("http://localhost:3002/api/user-stats", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data.data; // backend sends { success, data }
+  } catch (error) {
+    console.error("Error fetching user stats:", error);
+    throw error;
+  }
+};
 export const fetchUserPointsBreakdown = async () => {
   const { data } = await API.get('/auth/user-points');
   return data;
 };
 
-export const fetchGlobalLeaderboard = async (timeframe = 'all') => {
-  const { data } = await API.get(`/leaderboard/global?timeframe=${timeframe}`);
-  return data.users;
+export const fetchGlobalLeaderboard = async (entity = 'users', timeframe = 'all') => {
+  const { data } = await API.get(`/leaderboard/global-leaderboard?entity=${entity}&timeframe=${timeframe}`);
+  return entity === 'artists' ? data.artists : data.users;
 };
 
 export const createFriendLeaderboard = async (name, members) => {
@@ -122,9 +149,13 @@ export const fetchMyFriendLeaderboards = async () => {
 };
 
 export const fetchAllUsers = async () => {
-  const { data } = await API.get('/auth/all-users'); // or the correct route path
-  return data;
+  try {
+    const response = await API.get('/auth/all-users'); // adjust endpoint if different
+    return response.data; // returns enriched users array
+  } catch (error) {
+    console.error('Failed to fetch all users:', error);
+    throw error; // or return a fallback empty array []
+  }
 };
-
 
 export default API;

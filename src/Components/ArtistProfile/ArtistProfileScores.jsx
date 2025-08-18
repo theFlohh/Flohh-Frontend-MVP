@@ -153,7 +153,7 @@ const ArtistProfileScores = ({ artist }) => {
                   ✕
                 </button>
                 <img
-                  src="/img/p2.png"
+                  src={artist.image || "/logoflohh.png"}
                   alt={artist.name}
                   className="mx-auto rounded-full object-cover w-20 h-20"
                 />
