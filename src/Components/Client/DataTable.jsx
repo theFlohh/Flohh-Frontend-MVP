@@ -6,7 +6,7 @@ const PAGE_SIZE = 15; // 5 cards per row, 3 rows
 
 const ArtistCard = ({ artist, onClick }) => (
   <div
-    className="bg-white rounded-xl shadow-md hover:shadow-xl transition cursor-pointer flex flex-col items-center p-4 m-2 border border-gray-100 hover:border-purple-200 group"
+    className=" border border-[#353751] bg-[#2a2d48] rounded-xl shadow-md hover:shadow-xl transition cursor-pointer flex flex-col items-center p-4 m-2 border border-gray-100 hover:border-purple-200 group"
     onClick={() => onClick(artist)}
     title={artist.name}
   >
@@ -15,7 +15,7 @@ const ArtistCard = ({ artist, onClick }) => (
       alt={artist.name}
       className="w-20 h-20 object-cover rounded-full border-2 border-purple-100 group-hover:border-purple-400 mb-2"
     />
-    <div className="font-bold text-gray-800 text-base text-center mb-1 truncate w-32">{artist.name}</div>
+    <div className="font-bold text-white text-base text-center mb-1 truncate w-32">{artist.name}</div>
     <div className="text-xs text-gray-500 mb-1">{artist.category || "Artist"}</div>
     <div className="text-xs text-purple-600 font-semibold">{artist.totalScore || 0} pts</div>
   </div>
@@ -57,7 +57,7 @@ const DataTable = () => {
           </div>
           <div className="flex justify-center items-center gap-2 mt-2">
             <button
-              className="px-3 py-1 rounded bg-gray-200 text-gray-600 hover:bg-purple-100 hover:text-purple-700 font-semibold disabled:opacity-50"
+              className="px-3 py-1 rounded bg-gray-200 text-white hover:bg-purple-100 hover:text-purple-700 font-semibold disabled:opacity-50"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
             >
