@@ -102,7 +102,7 @@ export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
 export const fetchUserStats = async () => {
   try {
     const token = localStorage.getItem("token"); // if using JWT auth
-    const res = await axios.get("http://localhost:3002/api/user-stats", {
+    const res = await axios.get("https://floahh-backend.onrender.com/api/user-stats", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
