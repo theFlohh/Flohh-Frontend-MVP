@@ -1,79 +1,142 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { fetchAllArtists } from "../../Services/Api";
 import { useNavigate } from "react-router-dom";
 
-const PAGE_SIZE = 15; // 5 cards per row, 3 rows
-
-const ArtistCard = ({ artist, onClick }) => (
-  <div
-    className="bg-white rounded-xl shadow-md hover:shadow-xl transition cursor-pointer flex flex-col items-center p-4 m-2 border border-gray-100 hover:border-purple-200 group"
-    onClick={() => onClick(artist)}
-    title={artist.name}
-  >
-    <img
-      src={artist.image || "/logoflohh.png"}
-      alt={artist.name}
-      className="w-20 h-20 object-cover rounded-full border-2 border-purple-100 group-hover:border-purple-400 mb-2"
-    />
-    <div className="font-bold text-gray-800 text-base text-center mb-1 truncate w-32">{artist.name}</div>
-    <div className="text-xs text-gray-500 mb-1">{artist.category || "Artist"}</div>
-    <div className="text-xs text-purple-600 font-semibold">{artist.totalScore || 0} pts</div>
-  </div>
-);
+const PAGE_SIZE = 12;
 
 const DataTable = () => {
   const [artists, setArtists] = useState([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchArtists = async () => {
-      setLoading(true);
+    const load = async () => {
       try {
-        const data = await fetchAllArtists();
-        setArtists(data || []);
-      } catch {
-        setArtists([]);
+        setLoading(true);
+        const res = await fetchAllArtists();
+        setArtists(res || []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-    fetchArtists();
+    load();
   }, []);
 
-  const totalPages = Math.ceil(artists.length / PAGE_SIZE);
-  const paginated = artists.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  // search filter
+  const filtered = useMemo(() => {
+    if (!query.trim()) return artists;
+    const q = query.toLowerCase();
+    return artists.filter((a) => (a.name || "").toLowerCase().includes(q));
+  }, [artists, query]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const current = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [totalPages, page]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[40vh] text-white">
+        Loading...
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full">
-      {loading ? (
-        <div className="text-center py-16 text-lg text-gray-400">Loading artists...</div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-            {paginated.map((artist) => (
-              <ArtistCard key={artist._id} artist={artist} onClick={() => navigate(`/artist/${artist._id}`)} />
+    <div className="space-y-6 pr-6">
+      {/* Header + Search */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Artists</h1>
+        <input
+          className="px-3 py-2 rounded-full bg-[#1C2752] border border-white/10 text-white placeholder-purple-300/60 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          placeholder="Search artists..."
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setPage(1);
+          }}
+        />
+      </div>
+
+      {/* Cards Grid */}
+      <div className="bg-[#131d3e] rounded-2xl border border-white/10 p-4">
+        {current.length === 0 ? (
+          <div className="px-4 py-6 text-purple-200/80 text-sm">
+            No artists found.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {current.map((a) => (
+              <div
+                key={a._id}
+                className="rounded-2xl overflow-hidden shadow-lg border border-white/10 bg-[#111536] hover:shadow-xl transition"
+              >
+                <div className="relative">
+                  <img
+                    src={a.image || "/logoflohh.png"}
+                    alt={a.name}
+                    className="w-full h-40 object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
+                    <div className="text-sm font-semibold truncate">
+                      {a.name}
+                    </div>
+                    <div className="text-[11px] text-purple-200/80 truncate">
+                      {(a.genres || []).slice(0, 2).join(", ")}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-[10px] sm:text-xs">
+                    <span className="px-2 py-0.5 rounded-full bg-purple-600/20 text-purple-200 border border-purple-500/30">
+                      {a.totalScore || 0} pts
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/artist/${a._id}`)}
+                    className="text-[11px] sm:text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white"
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
-          <div className="flex justify-center items-center gap-2 mt-2">
-            <button
-              className="px-3 py-1 rounded bg-gray-200 text-gray-600 hover:bg-purple-100 hover:text-purple-700 font-semibold disabled:opacity-50"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-            >
-              Previous
-            </button>
-            <span className="text-gray-700 font-medium">Page {page} of {totalPages}</span>
-            <button
-              className="px-3 py-1 rounded bg-gray-200 text-gray-600 hover:bg-purple-100 hover:text-purple-700 font-semibold disabled:opacity-50"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+        )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center gap-2">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+            page === 1
+              ? "bg-gray-600 cursor-not-allowed text-white"
+              : "bg-gradient-to-r from-[#865DFF] to-[#E384FF] text-white hover:opacity-90"
+          }`}
+        >
+          Prev
+        </button>
+        <span className="text-white text-sm font-medium">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+            page === totalPages
+              ? "bg-gray-600 cursor-not-allowed text-white"
+              : "bg-gradient-to-r from-[#865DFF] to-[#E384FF] text-white hover:opacity-90"
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

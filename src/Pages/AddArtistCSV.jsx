@@ -28,13 +28,13 @@ const AddArtistCSV = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50">
-      <h2 className="text-2xl font-bold mb-6">Add Artists using CSV</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#131634]">
+      <h2 className="text-2xl font-bold mb-6 text-white">Add Artists using CSV</h2>
       <input
         type="file"
         accept=".csv"
         onChange={handleFileChange}
-        className="border p-2 rounded mb-4"
+        className="border p-2 rounded mb-4 text-white bg-[#1e294a] placeholder-gray-400`"
       />
       <button
         onClick={handleUpload}
@@ -43,7 +43,7 @@ const AddArtistCSV = () => {
       >
         {loading ? "Uploading..." : "Upload CSV"}
       </button>
-      {message && <p className="mt-4 text-center">{message}</p>}
+      {message && <p className="mt-4 text-center text-white">{message}</p>}
     </div>
   );
 };
