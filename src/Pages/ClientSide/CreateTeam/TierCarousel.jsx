@@ -47,14 +47,14 @@ const TierCarousel = ({ tier, artists, selectedForTier, onSelect, locked, naviga
             <div className="relative group w-40 h-40 mr-4">
               <img src={artist.image || "/logoflohh.png"} alt={artist.name} className="w-40 h-40 object-cover rounded-md border border-gray-200" />
               <button
-                className="absolute top-2 left-2 z-10 bg-white  cursor-pointer rounded-full p-1 shadow opacity-0 group-hover:opacity-100 transition"
+                className="absolute top-2 left-2 z-10 bg-white  cursor-pointer rounded-full p-1 shadow opacity-100 sm:opacity-0 group-hover:opacity-100 transition"
                 onClick={(e) => { e.stopPropagation(); }}
                 title="Add to Favourites"
               >
                 <img src="/img/heart.png" alt="fav" className="w-4 h-4" />
               </button>
               <button
-                className="absolute bottom-2 right-2 z-10 cursor-pointer bg-gradient-to-r from-[#794AFE] to-[#B292FF] rounded-full p-1 shadow opacity-0 group-hover:opacity-100 transition text-white"
+                className="absolute bottom-2 right-2 z-10 cursor-pointer bg-gradient-to-r from-[#794AFE] to-[#B292FF] rounded-full p-1  shadow opacity-100 sm:opacity-0 group-hover:opacity-100 transition text-white"
                 onClick={(e) => { e.stopPropagation(); onSelect(tier.value, artist); }}
                 disabled={locked}
                 title="Add to team"
