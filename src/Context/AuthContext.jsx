@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { LOCAL_STORAGE_KEY } from "../Pages/ClientSide/CreateTeam/CreateTeam";
 const AuthContext = createContext();
 
 // Utility to decode JWT and check expiry
@@ -40,6 +40,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    sessionStorage.removeItem("loggedInUser");
+    sessionStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
   useEffect(() => {

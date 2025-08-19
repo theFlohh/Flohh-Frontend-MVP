@@ -12,12 +12,12 @@ const ConfirmModal = ({ selectedArtists, onConfirm, onCancel }) => {
               className="bg-white text-black rounded-lg p-3 flex flex-col items-center justify-center w-full shadow"
             >
               <img
-                src={artist.image || "/logoflohh.png"}
+                src={artist.artistId?.image || artist?.image || "/logoflohh.png"}
                 alt={artist.name}
                 className="w-12 h-12 object-cover rounded-full mb-2"
               />
               <div className="text-xs font-semibold text-center">
-                {artist.name}
+                {artist?.name || artist?.artistId?.name || "Unknown"}
               </div>
               <div className="text-[10px] text-gray-500 text-center">
                 {artist.type || "American rapper"}

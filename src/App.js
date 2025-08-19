@@ -7,6 +7,7 @@ import {
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
+import Artists from "./Pages/Admin/Artists";
 import AddArtistCSV from "./Pages/AddArtistCSV";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
@@ -16,7 +17,7 @@ import ClientLayout from "./Components/Client/ClientLayout";
 import ProfileIndex from "./Pages/ClientSide/ProfileIndex";
 import MyTeam from "./Pages/ClientSide/MyTeam";
 import ArtistProfilePage from "./Pages/ClientSide/ArtistProfilePage";
-import CreateTeam from "./Pages/ClientSide/CreateTeam";
+import CreateTeam from "./Pages/ClientSide/CreateTeam/CreateTeam";
 import GlobalLeaderboard from "./Pages/Leaderboard/GlobalLeaderboard";
 import FriendsList from "./Pages/Leaderboard/FriendsList";
 import FriendLeaderboardView from "./Pages/Leaderboard/FriendLeaderboardView";
@@ -26,6 +27,9 @@ import LegendPool from "./Pages/ClientSide/LegendPool";
 import StandardPool from "./Pages/ClientSide/StandardPoll";
 import BreakoutPool from "./Pages/ClientSide/BreakoutPool";
 import TrendingPool from "./Pages/ClientSide/TrendingPool";
+import AdminAllUsersPage from "./Pages/Admin/AllUsers";
+import RedraftFlow from "./Pages/ClientSide/Redraft";
+import ArtistIndex from "./Pages/ClientSide/ArtistPage";
 function AppRoutes() {
   const { user, token, loading } = useAuth();
   const role = user?.role;
@@ -56,6 +60,9 @@ function AppRoutes() {
             <Route index element={<AdminDashboard />} />
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="add-artist-csv" element={<AddArtistCSV />} />
+            <Route path="admin/artists" element={<Artists />} />
+            <Route path="all-users" element={<AdminAllUsersPage />} />
+            <Route path="artist/:id" element={<ArtistProfilePage />} />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
@@ -69,12 +76,14 @@ function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<ClientLayout />}>
           <Route index element={<ClientIndex />} />
-          <Route path="profile" element={<ProfileIndex />} />
+          <Route path="profile-setting" element={<ProfileIndex />} />
+          <Route path="artist" element={<ArtistIndex />} />
           <Route path="my-team" element={<MyTeam />} />
           <Route path="artist/:id" element={<ArtistProfilePage />} />
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="/leaderboard/global" element={<GlobalLeaderboard />} />
           <Route path="/leaderboard/friend" element={<FriendsList />} />
+          <Route path="/redraft" element={<RedraftFlow  />} />
           <Route
             path="/leaderboard/friends/create"
             element={<CreateFriendLeaderboard />}

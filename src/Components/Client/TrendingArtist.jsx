@@ -11,7 +11,15 @@ const trendingImages = [
   "/img/l6.png",
 ];
 
-const TrendingArtist = () => {
+const sortArtists = (artists, sort) => {
+  if (sort === "A - Z") return [...artists].sort((a, b) => a.name.localeCompare(b.name));
+  if (sort === "Z - A") return [...artists].sort((a, b) => b.name.localeCompare(a.name));
+  if (sort === "Most Popular") return [...artists].sort((a, b) => (b.points || 0) - (a.points || 0));
+  if (sort === "Newest") return [...artists].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  return artists;
+};
+
+const TrendingArtist = ({ filter }) => {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,6 +39,13 @@ const TrendingArtist = () => {
     getArtists();
   }, []);
 
+  let filtered = artists;
+  if (filter?.genre && filter.genre !== "All") {
+    const selected = String(filter.genre).toLowerCase();
+    filtered = filtered.filter((a) => (a.genres || []).some((g) => String(g).toLowerCase() === selected));
+  }
+  filtered = sortArtists(filtered, filter?.sort);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
@@ -40,6 +55,9 @@ const TrendingArtist = () => {
   }
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
+  }
+  if (filter?.genre && filter.genre !== "All" && filtered.length === 0) {
+    return null;
   }
 
   return (
@@ -60,7 +78,7 @@ const TrendingArtist = () => {
       {/* Cards */}
       <div className="flex gap-6 align-center overflow-x-auto pb-2 scrollbar-hide mt-4 justify-center">
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide mt-4 w-4/5">
-          {artists.map((artist, idx) => (
+          {filtered.map((artist, idx) => (
             <div
               key={artist._id || artist.id}
               className="min-w-[200px] rounded-xl shadow-lg hover:shadow-xl transition flex flex-col items-center relative cursor-pointer"
@@ -72,7 +90,7 @@ const TrendingArtist = () => {
                 </span>
               )}
               <img
-                src={trendingImages[idx % trendingImages.length]}
+                  src={artist.image || "/logoflohh.png"}
                 alt={artist.name}
                 className="w-40 h-40 object-cover rounded-full mb-3 border-2 border-purple-500"
               />

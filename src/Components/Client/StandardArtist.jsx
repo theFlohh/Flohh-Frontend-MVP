@@ -53,7 +53,9 @@ const StandardArtist = ({ filter }) => {
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
-
+  if (filter?.genre && filter.genre !== "All" && filtered.length === 0) {
+    return null;
+  }
   return (
     <section className="rounded-xl p-6">
       <div>
@@ -82,10 +84,10 @@ const StandardArtist = ({ filter }) => {
                   </span>
                 )}
                 <img
-                  src={standardImages[idx % standardImages.length]}
-                  alt={artist.name}
-                  className="w-40 h-40 object-cover rounded-full mb-3 border-2 border-purple-500"
-                />
+                  src={artist.image || "/logoflohh.png"}
+                alt={artist.name}
+                className="w-40 h-40 object-cover rounded-full mb-3 border-2 border-purple-500"
+              />
                 <h3 className="font-semibold text-white text-base mb-1 text-center">
                   {artist.name}
                 </h3>
