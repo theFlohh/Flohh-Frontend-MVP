@@ -46,6 +46,7 @@ const MyTeam = () => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
 
+  // const BASE_URL = "http://localhost:3002/";
   const BASE_URL = "https://floahh-backend.onrender.com/";
 
   useEffect(() => {
@@ -239,9 +240,9 @@ const MyTeam = () => {
           ></div>
 
           {/* Avatar + Team Name */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10 -mt-20 sm:-mt-24 px-2">
+          <div className="flex flex-col sm:flex-row sm:items-center items-start gap-6 sm:gap-10 -mt-13 sm:-mt-24 px-2">
             {/* Avatar */}
-            <div className="relative self-center sm:self-start">
+            <div className="relative sm:self-center sm:self-start">
               <img
                 src={avatarPreview || teamAvatar || "/img/default-avatar.png"}
                 alt={teamName || "Team Avatar"}

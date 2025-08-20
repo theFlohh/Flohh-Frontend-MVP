@@ -53,7 +53,7 @@ const ArtistProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-start justify-between">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-4 sm:gap-0">
         <div className="w-full md:w-1/3 flex flex-col gap-6">
           <ArtistProfileLeft artist={artist} />
         </div>

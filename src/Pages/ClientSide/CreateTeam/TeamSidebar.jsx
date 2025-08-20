@@ -4,7 +4,8 @@ const TeamSidebar = ({ tiers, selected, locked, onRemove, onConfirm, saving, tea
   const [swipedArtistId, setSwipedArtistId] = useState(null);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
-
+const a = selected;
+console.log(a,"selected")
   const teamIsEmpty = Object.values(selected).every((arr) => arr.length === 0);
   if (teamIsEmpty) return null;
 

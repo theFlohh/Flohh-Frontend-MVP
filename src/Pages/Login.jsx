@@ -80,6 +80,7 @@ sessionStorage.setItem(
 
   // ---------- Handle Google login ----------
   const handleGoogleLogin = () => {
+    // window.location.href = "http://localhost:3002/api/auth/google";
     window.location.href = "https://floahh-backend.onrender.com/api/auth/google";
   };
 

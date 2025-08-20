@@ -173,6 +173,7 @@ const Signup = () => {
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
             onClick={() =>
+              // (window.location.href = "http://localhost:3002/api/auth/google")
               (window.location.href = "https://floahh-backend.onrender.com/api/auth/google")
             }
           >
