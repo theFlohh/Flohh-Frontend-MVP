@@ -19,7 +19,6 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
     return () => clearInterval(timer);
   }, [locked, unlockAt, openUntil]);
 
-  // Load previously computed banner content during hydration to avoid default fallback flash
   useEffect(() => {
     if (!hydrating || !bannerKey) return;
     try {
@@ -27,7 +26,7 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
       if (raw) setSnapshot(JSON.parse(raw));
     } catch {}
   }, [hydrating, bannerKey]);
-  
+
   const bannerContent = () => {
     if (locked) {
       return {
@@ -35,21 +34,18 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
         desc: lockMsg || (remaining ? `Unlocks in ${remaining}` : "You can’t update your team for now."),
       };
     }
-    // Strict new user (persisted) -> welcome
     if (isNewUser) {
       return {
         title: "Welcome to the Draft!",
         desc: "Build your dream team and save to start the lock cycle.",
       };
     }
-    // In-progress (no saved team yet) but has local picks
     if (!hasTeam && hasLocalSelection) {
       return {
         title: "Continue building your team",
         desc: "You're almost there. Add members and confirm your lineup.",
       };
     }
-    // Saved team and draft is open (not locked) with an open window timer
     if (hasTeam && !locked && openUntil && remaining) {
       return {
         title: "Draft is open",
@@ -62,7 +58,6 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
         desc: infoMsg,
       };
     }
-    // Final fallbacks to avoid generic message
     if (hasTeam) {
       return { title: "Draft is open", desc: "You can update your team now." };
     }
@@ -72,12 +67,9 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
   const computed = bannerContent();
   const { title, desc } = hydrating && snapshot ? snapshot : computed;
 
-  // Persist snapshot when we have a solid computed state (not during hydration)
   useEffect(() => {
     if (hydrating || !bannerKey) return;
-    try {
-      localStorage.setItem(bannerKey, JSON.stringify({ title, desc }));
-    } catch {}
+    try { localStorage.setItem(bannerKey, JSON.stringify({ title, desc })); } catch {}
   }, [hydrating, bannerKey, title, desc]);
 
   return (
@@ -88,11 +80,7 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
           <div className="text-purple-100 text-sm sm:text-sm">{desc}</div>
         </div>
         <div className="flex-shrink-0 mt-3 sm:mt-0 sm:ml-6">
-          <img
-            src="/img/music.png"
-            alt="Music Banner"
-            className="w-20 h-20 sm:w-28 sm:h-28 object-contain"
-          />
+          <img src="/img/music.png" alt="Music Banner" className="w-20 h-20 sm:w-28 sm:h-28 object-contain" />
         </div>
       </div>
     </div>
@@ -100,5 +88,3 @@ const DraftBanner = ({ locked, infoMsg, hasTeam, lockMsg, unlockAt, hasLocalSele
 };
 
 export default DraftBanner;
-
-

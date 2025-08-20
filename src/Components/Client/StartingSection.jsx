@@ -44,22 +44,27 @@ const StartingSection = ({ filter, setFilter, genres = ["All"] }) => {
             ))}
           </select>
         </div>
-        <div>
-          <label className="block text-gray-500 text-xs mb-1">Genre</label>
-          <select
-            className="border border-gray-300 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-[30px]"
-            value={filter.genre}
-            onChange={(e) =>
-              setFilter((f) => ({ ...f, genre: e.target.value }))
-            }
-          >
-            {genres.map((genre) => (
-              <option key={genre} className="bg-[#1F223E]">
-                {genre}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="w-full sm:w-auto">
+  <label className="block text-gray-500 text-xs mb-1">Genre</label>
+  <select
+    className="border border-gray-300 text-white px-4 py-2 
+               focus:outline-none focus:ring-2 focus:ring-purple-400 
+               rounded-[30px] w-full sm:w-60 
+               bg-[#1F223E] text-sm sm:text-base"
+    value={filter.genre}
+    onChange={(e) => setFilter((f) => ({ ...f, genre: e.target.value }))}
+  >
+    {genres.map((genre) => (
+      <option
+        key={genre}
+        className="bg-[#1F223E] whitespace-normal break-words text-wrap"
+      >
+        {genre}
+      </option>
+    ))}
+  </select>
+</div>
+
         <div>
           <label className="block text-gray-500 text-xs mb-1">Sort by</label>
           <select

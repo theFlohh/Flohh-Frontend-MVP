@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 // render
-// const BASE_URL = 'https://floahh-backend.onrender.com/api';
+const BASE_URL = 'https://floahh-backend.onrender.com/api';
 
 // railway
 // const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
 
 // local
-const BASE_URL = 'https://floahh-backend.onrender.com/api';
+// const BASE_URL = 'http://localhost:3002/api';
+
 
 
 // Create an Axios instance
@@ -81,6 +82,21 @@ export const submitDraft = async (draftedArtists, teamName) => {
   return data;
 };
 
+// export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
+//   const formData = new FormData();
+//   formData.append("draftedArtists", JSON.stringify(draftedArtists));
+//   formData.append("teamName", teamName);
+  
+//   if (avatarFile) {
+//     formData.append("avatar", avatarFile);
+//   }
+
+//   const { data } = await API.put('/draft/drafts/update', formData, {
+//     headers: {
+//       "Content-Type": "multipart/form-data"
+//     }
+//   });
+  
 export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
   const formData = new FormData();
   formData.append("draftedArtists", JSON.stringify(draftedArtists));
@@ -118,10 +134,7 @@ export const fetchUserPointsBreakdown = async () => {
   return data;
 };
 
-export const fetchGlobalLeaderboard = async (entity = 'users', timeframe = 'all') => {
-  const { data } = await API.get(`/leaderboard/global-leaderboard?entity=${entity}&timeframe=${timeframe}`);
-  return entity === 'artists' ? data.artists : data.users;
-};
+  
 
 export const createFriendLeaderboard = async (name, members) => {
   const { data } = await API.post('/leaderboard/friend', { name, members });
@@ -198,5 +211,8 @@ export const updateUser = async (formData) => {
     throw error;
   }
 };
-
+export const fetchGlobalLeaderboard = async (entity = 'users', timeframe = 'all') => {
+    const { data } = await API.get(`/leaderboard/global-leaderboard?entity=${entity}&timeframe=${timeframe}`);
+    return entity === 'artists' ? data.artists : data.users;
+}
 export default API;

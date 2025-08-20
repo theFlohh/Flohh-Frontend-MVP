@@ -140,30 +140,51 @@ const CreateTeam = () => {
         }
 
         // Determine lock status: prefer backend flags, else compute 7-day window from lastUpdatedAt/createdAt
-        const serverLocked = Boolean(userTeam?.userTeam?.isLocked);
-        let computedLocked = false;
-        let computedUnlockAt = null;
-        const refTimeStr = userTeam?.userTeam?.lastUpdatedAt || userTeam?.userTeam?.createdAt;
-        if (refTimeStr) {
-          const refTime = new Date(refTimeStr).getTime();
-          const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
-          const unlock = new Date(refTime + sevenDaysMs);
-          if (Date.now() < unlock.getTime()) {
-            computedLocked = true;
-            computedUnlockAt = unlock.toISOString();
-          }
-        }
-        if (serverLocked || computedLocked) {
-          setLocked(true);
-          setUnlockAt(userTeam?.unlockAt || userTeam?.lockedUntil || computedUnlockAt);
-          setLockMsg(userTeam?.message);
-          setOpenUntil(null);
-        } else {
-          setLocked(false);
-          setUnlockAt(null);
-          if (userTeam?.openUntil) setOpenUntil(userTeam.openUntil);
-          if (!teamExists) setInfoMsg("");
-        }
+        // Determine lock/unlock cycle
+const serverLocked = Boolean(userTeam?.userTeam?.isLocked);
+let computedLocked = false;
+let computedUnlockAt = null;
+let computedOpenUntil = null;
+
+const refTimeStr = userTeam?.userTeam?.lastUpdatedAt || userTeam?.userTeam?.createdAt;
+if (refTimeStr) {
+  const refTime = new Date(refTimeStr).getTime();
+
+  // cycle durations
+  const dayMs = 24 * 60 * 60 * 1000;
+  const lockDuration = 7 * dayMs;   // 7 din lock
+  const openDuration = dayMs;       // 24h unlock
+
+  // time since reference
+  const elapsed = Date.now() - refTime;
+  const cycleLength = lockDuration + openDuration; // 8 days total
+
+  // cycle kaunsa chal raha hai
+  const cyclePos = elapsed % cycleLength;
+
+  if (cyclePos < openDuration) {
+    // abhi unlock window chal rahi hai
+    computedLocked = false;
+    computedOpenUntil = new Date(refTime + elapsed - cyclePos + openDuration).toISOString();
+  } else {
+    // abhi lock window chal rahi hai
+    computedLocked = true;
+    computedUnlockAt = new Date(refTime + elapsed - cyclePos + cycleLength).toISOString();
+  }
+}
+
+if (serverLocked || computedLocked) {
+  setLocked(true);
+  setUnlockAt(userTeam?.unlockAt || userTeam?.lockedUntil || computedUnlockAt);
+  setLockMsg(userTeam?.message || "Your team is currently locked.");
+  setOpenUntil(null);
+} else {
+  setLocked(false);
+  setUnlockAt(null);
+  setOpenUntil(userTeam?.openUntil || computedOpenUntil);
+  if (!teamExists) setInfoMsg("");
+}
+
       } catch (err) {
         console.error("Error during fetchAll:", err);
         const saved = sessionStorage.getItem(LOCAL_STORAGE_KEY);

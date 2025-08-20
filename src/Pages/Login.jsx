@@ -1,62 +1,106 @@
-  import { useState } from "react";
-  import API from "../Services/Api";
-  import { useAuth } from "../Context/AuthContext";
-  import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAuth } from "../Context/AuthContext";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import API from "../Services/Api";
 
-  const Login = () => {
-    const [form, setForm] = useState({ email: "", password: "" });
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const { login } = useAuth();
+const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const handleChange = (e) =>
-      setForm({ ...form, [e.target.name]: e.target.value });
+  // ---------- Handle Google redirect ----------
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsLoading(true);
-      setError("");
-      setSuccess("");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const userParam = params.get("user");
+
+    if (token && userParam) {
       try {
-        const res = await API.post("/auth/login", form);
-        const token = res.data.token;
-        const user = res.data.user;
-        login(token, user);
-        setSuccess("Login successful! Redirecting...");
+        const user = JSON.parse(decodeURIComponent(userParam));
+        console.log("Google login user:", user); 
+        login(token, user); // save in context + localStorage
+
+        // Clear the query params from URL
+        window.history.replaceState({}, document.title, "/");
+
+        // Redirect to dashboard
+        navigate("/", { replace: true });
       } catch (err) {
-        setError(
-          err.response?.data?.error || "Login failed. Please check your credentials."
-        );
-      } finally {
-        setIsLoading(false);
+        console.error("Failed to parse Google login user:", err);
       }
-    };
+    }
+  }, [login, navigate]);
 
-    return (
-      <div className="min-h-screen relative flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-[#070a29] overflow-hidden">
-        <img
-          src="/img/login-bg.png"
-          alt="Background Design"
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        />
 
-        <div className="relative z-10 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-md p-6 sm:p-8 space-y-8 rounded-2xl bg-white/10 backdrop-blur-md shadow-2xl border border-white/20">
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-              Welcome Back <span className="text-yellow-300 text-xl sm:text-2xl">👋</span>
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-gray-200">
-              Today is new day. It's your day. You shape it. <br />
-              Sign in to start managing your projects.
-            </p>
-          </div>
+  // ---------- Handle input changes ----------
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-          {success && (
-            <div className="bg-green-100 text-green-700 px-4 py-2 rounded mb-2 text-center text-sm font-medium">
-              {success}
-            </div>
-          )}
+  // ---------- Handle normal login ----------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const res = await API.post("/auth/login", form);
+      const token = res.data.token;
+      const user = res.data.user;
+      login(token, user);
+sessionStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          token: token,
+        })
+      );
+      console.log(
+        "Saved user:",
+        JSON.parse(sessionStorage.getItem("loggedInUser"))
+      );
+      setSuccess("Login successful! Redirecting...");
+      navigate("/", { replace: true }); // redirect to dashboard
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+          "Login failed. Please check your credentials."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ---------- Handle Google login ----------
+  const handleGoogleLogin = () => {
+    window.location.href = "https://floahh-backend.onrender.com/api/auth/google";
+  };
+
+  return (
+    <div className="min-h-screen relative flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-[#070a29] overflow-hidden">
+      <img
+        src="/img/login-bg.png"
+        alt="Background Design"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      />
+
+      <div className="relative z-10 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-md p-6 sm:p-8 space-y-8 rounded-2xl bg-white/10 backdrop-blur-md shadow-2xl border border-white/20">
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
+            Welcome Back{" "}
+            <span className="text-yellow-300 text-xl sm:text-2xl">👋</span>
+          </h2>
+          <p className="mt-2 text-xs sm:text-sm text-gray-200">
+            Today is a new day. Sign in to start managing your projects.
+          </p>
+        </div>
 
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm mb-2">
@@ -186,12 +230,28 @@
             </button>
           </div>
 
-          <div className="text-center text-sm text-gray-300 mt-2">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-purple-300 hover:underline">
-              Sign up
-            </Link>
-          </div>
+
+        <div className="space-y-3 w-full">
+          <button
+            type="button"
+            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
+            onClick={handleGoogleLogin}
+          >
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="w-5 h-5"
+            />
+            Sign in with Google
+          </button>
+        </div>
+
+        <div className="text-center text-sm text-gray-300 mt-2">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-purple-300 hover:underline">
+            Sign up
+          </Link>
+
         </div>
       </div>
     );

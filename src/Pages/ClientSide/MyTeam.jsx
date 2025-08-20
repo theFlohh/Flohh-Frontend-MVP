@@ -103,15 +103,30 @@ const MyTeam = () => {
   const getCategoryMeta = (category) => {
     switch (category) {
       case "Legend":
-        return { icon: "/img/medal-yellow.png", chip: "bg-yellow-500/20 text-yellow-200 border-yellow-400/30" };
+        return {
+          icon: "/img/medal-yellow.png",
+          chip: "bg-yellow-500/20 text-yellow-200 border-yellow-400/30",
+        };
       case "Trending":
-        return { icon: "/img/medal-red.png", chip: "bg-red-500/20 text-red-200 border-red-400/30" };
+        return {
+          icon: "/img/medal-red.png",
+          chip: "bg-red-500/20 text-red-200 border-red-400/30",
+        };
       case "Breakout":
-        return { icon: "/img/medal-purple.png", chip: "bg-purple-600/20 text-purple-200 border-purple-500/30" };
+        return {
+          icon: "/img/medal-purple.png",
+          chip: "bg-purple-600/20 text-purple-200 border-purple-500/30",
+        };
       case "Standard":
-        return { icon: "/img/star.png", chip: "bg-blue-500/20 text-blue-200 border-blue-400/30" };
+        return {
+          icon: "/img/star.png",
+          chip: "bg-blue-500/20 text-blue-200 border-blue-400/30",
+        };
       default:
-        return { icon: "/img/star.png", chip: "bg-white/10 text-white border-white/20" };
+        return {
+          icon: "/img/star.png",
+          chip: "bg-white/10 text-white border-white/20",
+        };
     }
   };
 
@@ -217,35 +232,27 @@ const MyTeam = () => {
       )}
       <div className="min-h-screen text-white p-4 font-sans relative">
         <div className="max-w-6xl mx-auto relative">
+          {/* Banner */}
           <div
-            className="relative w-full h-32 md:h-40 rounded-2xl mb-2 md:mb-22 overflow-hidden bg-cover bg-center"
+            className="relative w-full h-32 sm:h-40 md:h-52 rounded-2xl mb-16 overflow-hidden bg-cover bg-center"
             style={{ backgroundImage: `url('/img/banner-rect1.png')` }}
           ></div>
-          <div className="relative sm:absolute sm:top-20 sm:left-7 flex flex-col sm:flex-row sm:items-center gap-4 px-2 sm:px-0">
-            <div className="relative w-28 h-28 sm:w-40 sm:h-40">
+
+          {/* Avatar + Team Name */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10 -mt-20 sm:-mt-24 px-2">
+            {/* Avatar */}
+            <div className="relative self-center sm:self-start">
               <img
                 src={avatarPreview || teamAvatar || "/img/default-avatar.png"}
                 alt={teamName || "Team Avatar"}
-                className="w-28 h-28 sm:w-40 sm:h-40 rounded-full border-4 border-purple-400 object-cover shadow-lg"
+                className="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border-4 border-purple-400 object-cover shadow-lg"
               />
 
-              {/* Upload / Save Button - Right side of image */}
-              <div className="absolute -bottom-2 right-0 sm:top-3/4 sm:-translate-y-1/2 sm:bottom-auto flex flex-col gap-2">
+              {/* Upload / Save Button */}
+              <div className="absolute bottom-0 right-0 flex flex-col gap-2">
                 {!avatarFile ? (
-                  <label
-                    className="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg shadow cursor-pointer text-sm flex items-center justify-center"
-                    aria-label="Upload avatar"
-                    title="Upload"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 1 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1z"/>
-                      <path d="M5 18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2a1 1 0 1 1 2 0v2a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-2a1 1 0 1 1 2 0v2z"/>
-                    </svg>
+                  <label className="bg-purple-500 hover:bg-purple-600 text-white px-2 sm:px-3 py-1 rounded-lg shadow cursor-pointer text-xs sm:text-sm flex items-center justify-center">
+                    Upload
                     <input
                       type="file"
                       className="hidden"
@@ -255,106 +262,88 @@ const MyTeam = () => {
                 ) : (
                   <button
                     onClick={handleAvatarSave}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm flex items-center justify-center"
-                    aria-label="Save avatar"
-                    title="Save"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-lg shadow text-xs sm:text-sm flex items-center justify-center"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.414A2 2 0 0 0 18.414 6L17 4.586A2 2 0 0 0 15.586 4H15v3a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2V4H7v16h10V8h-3a1 1 0 1 1 0-2h1.586L17 7.414V19H7V5h2v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5h3z"/>
-                    </svg>
+                    Save
                   </button>
                 )}
               </div>
             </div>
 
-            {/* Team Name Section */}
-            <div className="mt-4 sm:mt-18 w-full sm:w-auto mb-4">
-              <div className="text-2xl md:text-3xl font-bold">
+            {/* Team Info */}
+            <div className="flex flex-col items-center sm:items-start">
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-center sm:text-left">
                 {editingTeamName || !teamName ? (
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <input
                       type="text"
                       value={newTeamName}
                       onChange={(e) => setNewTeamName(e.target.value)}
                       placeholder="Enter team name"
-                      className="h-9 px-3 rounded-md bg-[#2a2d48] border border-purple-500 focus:border-purple-400 text-white placeholder-gray-400 outline-none w-full sm:w-auto flex-1 min-w-0"
+                      className="h-9 px-2 rounded-md bg-[#2a2d48] border border-purple-500 focus:border-purple-400 text-white placeholder-gray-400 outline-none w-40 sm:w-60"
                     />
                     <button
                       onClick={handleTeamNameSave}
                       disabled={teamNameLoading}
-                      className="h-9 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-md text-sm flex items-center justify-center shrink-0"
-                      aria-label="Save team name"
-                      title="Save"
+                      className="h-9 px-3 sm:px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-md text-xs sm:text-sm flex items-center justify-center"
                     >
-                      {teamNameLoading ? (
-                        "Saving..."
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-4 h-4"
-                        >
-                          <path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.414A2 2 0 0 0 18.414 6L17 4.586A2 2 0 0 0 15.586 4H15v3a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2V4H7v16h10V8h-3a1 1 0 1 1 0-2h1.586L17 7.414V19H7V5h2v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5h3z"/>
-                        </svg>
-                      )}
+                      {teamNameLoading ? "Saving..." : "Save"}
                     </button>
                   </div>
                 ) : (
                   <div
-                    className="cursor-pointer"
+                    className="cursor-pointer text-center sm:text-left"
                     onClick={() => setEditingTeamName(true)}
                   >
                     {teamName}
                   </div>
                 )}
               </div>
-              <div className="text-sm text-yellow-400 flex items-center gap-1 mt-1">
+              <div className="text-sm text-yellow-400 flex items-center gap-1 mt-2">
                 <img
                   src="/img/game-icons_two-coins.png"
                   alt="coin"
                   className="w-4 h-4 object-contain"
-                />{" "}
+                />
                 {totalUserPoints.toLocaleString()} pts
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-6">
+          {/* Stats + Members */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+            {/* Left Side Stats */}
+            <div className="space-y-6 order-2 md:order-1">
+              {/* Rank & Weekly */}
               <div className="border border-[#353751] bg-[#2a2d48] rounded-xl p-4 shadow-lg">
-                <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
                   <div>
-                    <div className="text-xl text-gray-300">Rank</div>
+                    <div className="text-lg sm:text-xl text-gray-300">Rank</div>
                     <div className="text-xl font-bold text-yellow-300">
                       #{rank}
                     </div>
                   </div>
-                  <div className="border-l border-gray-500 h-10 hidden sm:block"></div>
                   <div>
-                    <div className="text-lg text-gray-300">Weekly Points</div>
-                    <div className="text-base font-semibold flex items-center gap-1 text-yellow-400">
+                    <div className="text-sm sm:text-lg text-gray-300">
+                      Weekly Points
+                    </div>
+                    <div className="text-sm sm:text-base font-semibold flex items-center gap-1 text-yellow-400">
                       <img
                         src="/img/game-icons_two-coins.png"
                         alt="coin"
-                        className="w-6 h-6 object-contain"
+                        className="w-5 h-5 object-contain"
                       />
                       {weeklyPoints.toLocaleString()}
                     </div>
                     {userLeagueUrl ? (
                       <button
                         onClick={() => navigate(userLeagueUrl)}
-                        className="mt-1 px-3 py-1 text-xs bg-purple-700 hover:bg-purple-800 text-white rounded-full font-medium transition"
+                        className="mt-2 px-3 py-1 text-xs sm:text-sm bg-purple-700 hover:bg-purple-800 text-white rounded-full font-medium"
                       >
                         View League
                       </button>
                     ) : (
-                      <span className="mt-1 text-xs text-gray-400">
+                      <span className="mt-2 text-xs text-gray-400 block">
                         No league joined
                       </span>
                     )}
@@ -362,65 +351,74 @@ const MyTeam = () => {
                 </div>
               </div>
 
+              {/* Extra Info */}
               <div className="border border-[#353751] bg-[#2a2d48] rounded-xl p-4 shadow-lg space-y-3 text-sm text-white">
-                <div className="text-lg flex justify-between">
+                <div className="flex justify-between text-sm sm:text-lg">
                   <span>Total User Pts:</span>
                   <span className="flex items-center gap-1">
                     <img
                       src="/img/game-icons_two-coins.png"
                       alt="coin"
-                      className="w-6 h-6 object-contain"
-                    />{" "}
+                      className="w-5 h-5 object-contain"
+                    />
                     {totalUserPoints >= 1000000
-                      ? (totalUserPoints / 1000000).toFixed(2) + " Million"
+                      ? (totalUserPoints / 1000000).toFixed(2) + " M"
                       : totalUserPoints.toLocaleString()}
                   </span>
                 </div>
-                <div className="text-lg flex justify-between">
+                <div className="flex justify-between text-sm sm:text-lg">
                   <span>Members:</span>
                   <span>{members.length.toString().padStart(2, "0")}/07</span>
                 </div>
-                <div className="text-lg flex justify-between">
+                <div className="flex justify-between text-sm sm:text-lg">
                   <span>Type:</span>
                   <span>{teamType}</span>
                 </div>
-                <div className="flex gap-2 mt-3">
+                <div className="flex gap-2 mt-4 flex-wrap justify-center sm:justify-start">
                   <button
-                    className="px-5 bg-[#794AFE] hover:bg-[#794AFE] text-white font-semibold py-2 rounded-full transition"
+                    className="px-4 sm:px-5 bg-[#794AFE] hover:bg-[#794AFE] text-white font-semibold py-2 rounded-full transition text-sm"
                     onClick={() => navigate("/create-team")}
                   >
                     Edit
                   </button>
-                  <button className="px-5 bg-gray-700 text-white font-semibold py-2 rounded-full hover:bg-gray-600 transition">
+                  <button className="px-4 sm:px-5 bg-gray-700 text-white font-semibold py-2 rounded-full hover:bg-gray-600 transition text-sm">
                     Manage
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="md:col-span-2  rounded-xl shadow-lg">
+            {/* Team Members */}
+            <div className="md:col-span-2 order-1 md:order-2 rounded-xl shadow-lg">
               {members.length === 0 ? (
                 <div className="text-gray-400 text-center py-8">
                   No team members found.
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {members.map((m, idx) => {
                     const artist = m.artistId || {};
                     return (
                       <div
                         key={artist._id || idx}
-                        className="relative bg-[#1f223e] border border-[#353751] rounded-xl p-5 shadow-lg hover:scale-105 transform transition cursor-pointer flex flex-col items-start text-center"
+                        className="relative bg-[#1f223e] border border-[#353751] rounded-xl p-4 sm:p-5 shadow-lg hover:scale-105 transform transition cursor-pointer flex flex-col"
                         onClick={() => navigate(`/artist/${artist._id}`)}
                       >
-                        {m.category && (() => {
-                          const meta = getCategoryMeta(m.category);
-                          return (
-                            <span className={`absolute top-2 right-2 flex items-center gap-1 px-0.5 py-0.5 rounded-full text-[10px] sm:text-xs border ${meta.chip}`}>
-                              <img src={meta.icon} alt={m.category} className="w-6 h-6"/>
-                            </span>
-                          );
-                        })()}
+                        {m.category &&
+                          (() => {
+                            const meta = getCategoryMeta(m.category);
+                            return (
+                              <span
+                                className={`absolute top-2 right-2 flex items-center gap-1 px-0.5 py-0.5 rounded-full text-[10px] sm:text-xs border ${meta.chip}`}
+                              >
+                                <img
+                                  src={meta.icon}
+                                  alt={m.category}
+                                  className="w-6 h-6"
+                                />
+                              </span>
+                            );
+                          })()}
                         <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center w-full gap-2 mb-3 border-b border-gray-600 ">
                           <div className="flex flex-col justify-start min-w-0">
                             <h3 className="font-semibold text-md text-white mb-1 text-left">
@@ -435,10 +433,9 @@ const MyTeam = () => {
                               {artist.totalScore?.toLocaleString() || "0"} pts
                             </p>
                           </div>
-                          
                         </div>
                         {/* Drafting Percentage */}
-                        <div className="flex flex-row gap-2 flex-wrap">
+                        <div className="flex flex-row gap-2">
                           <div className="bg-[#2a2d48] px-4 py-2 rounded-full text-[12px] text-gray-300 mb-3">
                             Drafting : {artist?.draftingPercentage || "0"}%{" "}
                           </div>
@@ -466,11 +463,10 @@ const MyTeam = () => {
                                   className="w-6 h-6"
                                 />
                               )
-                            ) : "0"}
+                            ) : null}
                           </span>
                         </div>
                         {/* Category Button */}
-
                         {/* Swap Button */}
                         <div className="block items-center w-full ">
                           <button
@@ -492,7 +488,7 @@ const MyTeam = () => {
                             />
                             Swap
                           </button>
-                        </div>
+                        </div>{" "}
                       </div>
                     );
                   })}
