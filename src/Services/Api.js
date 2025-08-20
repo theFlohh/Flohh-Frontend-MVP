@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // render
-// const BASE_URL = 'https://floahh-backend.onrender.com/api';
+const BASE_URL = 'https://floahh-backend.onrender.com/api';
 
 // railway
 // const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
 
 // local
-const BASE_URL = 'http://localhost:3002/api';
+// const BASE_URL = 'http://localhost:3002/api';
 
 
 // Create an Axios instance
@@ -117,7 +117,7 @@ export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
 export const fetchUserStats = async () => {
   try {
     const token = localStorage.getItem("token"); // if using JWT auth
-    const res = await axios.get("http://localhost:3002/api/user-stats", {
+    const res = await axios.get("https://floahh-backend.onrender.com/api/user-stats", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
