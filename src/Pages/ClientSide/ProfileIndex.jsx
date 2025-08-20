@@ -22,29 +22,34 @@ const ProfileIndex = () => {
   const [showModal, setShowModal] = useState(false); // ✅ modal state
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [stats, details] = await Promise.all([
-          fetchUserStats(),
-          getUserDetails(),
-        ]);
-        setUserStats(stats);
-        setUserDetails(details);
-        setFormData({
-          name: details.name || "",
-          email: details.email || "",
-          password: "",
-          profileImage: null,
-        });
-        setPreviewImage(details.profileImage);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+  const loadData = async () => {
+    try {
+      const [stats, details] = await Promise.all([
+        fetchUserStats(),
+        getUserDetails(),
+      ]);
+
+      setUserStats(stats);
+      setUserDetails(details);
+
+      // Local storage se image check karo
+      const savedImage = localStorage.getItem("profileImage");
+      setFormData({
+        name: details.name || "",
+        email: details.email || "",
+        password: "",
+        profileImage: null,
+      });
+      setPreviewImage(savedImage || details.profileImage); // Agar local storage me image hai to use karo
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  loadData();
+}, []);
+
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -57,25 +62,33 @@ const ProfileIndex = () => {
     setIsChanged(true);
   };
 
-  const handleUpdate = async () => {
-    setUpdating(true);
-    try {
-      const fd = new FormData();
-      fd.append("name", formData.name);
-      fd.append("email", formData.email);
-      if (formData.password) fd.append("password", formData.password);
-      if (formData.profileImage) fd.append("profileImage", formData.profileImage);
+const handleUpdate = async () => {
+  setUpdating(true);
+  try {
+    const fd = new FormData();
+    fd.append("name", formData.name);
+    fd.append("email", formData.email);
+    if (formData.password) fd.append("password", formData.password);
+    if (formData.profileImage) fd.append("profileImage", formData.profileImage);
 
-      const updated = await updateUser(fd);
-      setUserDetails(updated.user);
-      setIsChanged(false);
-      setShowModal(true); // ✅ show modal on success
-    } catch (err) {
-      console.error("Update failed:", err);
-    } finally {
-      setUpdating(false);
+    const updated = await updateUser(fd);
+    setUserDetails(updated.user);
+
+    // ✅ LocalStorage me profileImage save karna
+    if (updated.user?.profileImage) {
+      localStorage.setItem("profileImage", updated.user.profileImage);
+      setPreviewImage(updated.user.profileImage);
     }
-  };
+
+    setIsChanged(false);
+    setShowModal(true);
+  } catch (err) {
+    console.error("Update failed:", err);
+  } finally {
+    setUpdating(false);
+  }
+};
+  
 
   if (loading) return <Loader />;
 

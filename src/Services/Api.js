@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // render
-const BASE_URL = 'https://floahh-backend.onrender.com/api';
+// const BASE_URL = 'https://floahh-backend.onrender.com/api';
 
 // railway
 // const BASE_URL = 'https://floahh-backend-production.up.railway.app/api';
 
 // local
-// const BASE_URL = 'http://localhost:3002/api';
+const BASE_URL = 'http://localhost:3002/api';
 
 
 // Create an Axios instance
@@ -99,7 +99,8 @@ export const submitDraft = async (draftedArtists, teamName) => {
 export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
   const formData = new FormData();
   formData.append("draftedArtists", JSON.stringify(draftedArtists));
-  formData.append("teamName", teamName);
+  // formData.append("teamName", teamName);
+  if(teamName) return formData.append("teamName" ,teamName);
   
   if (avatarFile) {
     formData.append("avatar", avatarFile);
@@ -117,7 +118,8 @@ export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
 export const fetchUserStats = async () => {
   try {
     const token = localStorage.getItem("token"); // if using JWT auth
-    const res = await axios.get("https://floahh-backend.onrender.com/api/user-stats", {
+    // const res = await axios.get("https://floahh-backend.onrender.com/api/user-stats", {
+    const res = await axios.get("http://localhost:3002/api/user-stats", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

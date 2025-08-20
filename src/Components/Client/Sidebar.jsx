@@ -60,9 +60,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     user = null;
   }
   const userName = user?.name || "User";
-  const userRole = user?.role || "User";
+  const userRole = user?.email || "User";
   const userAvatar = user?.image || "/logoflohh.png";
-
+const profileImg = localStorage.getItem("profileImage");
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -145,21 +145,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           ? "bg-gradient-to-r from-[#794AFE] to-[#B292FF] text-white font-semibold"
           : "hover:bg-gradient-to-r hover:from-[#794AFE] hover:to-[#B292FF] hover:text-white "
       }`}
-      //           className={`flex items-center gap-3 px-3 py-2 rounded-full transition 
-      // ${
-      //   location.pathname === item.path
-      //     ? "bg-gradient-to-r from-[#794AFE] to-[#B292FF] text-white font-semibold"
-      //     : "hover:bg-gradient-to-r hover:from-[#794AFE] hover:to-[#B292FF] hover:text-white "
-      // }`}
+
                 onClick={() => setIsOpen(false)}
               >
                 {item.icon}
                 {item.label}
               </Link>
             ))}
-            {/* Divider line */}
-            {/* <div className="my-3 mx-4 border-t border-white opacity-60" /> */}
-            {/* <div className="my-3 mx-4 border-t border-white opacity-60" /> */}
           </nav>
         </div>
         {/* Bottom nav items and profile/logout */}
@@ -205,9 +197,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="pb-6 pt-2 mx-auto">
           <div className="flex items-center gap-3 mb-3 p-2 rounded-lg" onClick={() => navigate("/profile-setting")}>
             <img
-              src={userAvatar}
+              src={profileImg}
               alt="User"
-              className="w-8 h-8 rounded-full border-2 border-purple-400"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-400"
             />
             <div>
               <div className="text-white font-semibold text-sm">{userName}</div>
