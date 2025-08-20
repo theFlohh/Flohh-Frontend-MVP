@@ -254,6 +254,7 @@ sessionStorage.setItem(
 
         </div>
       </div>
+  </div>
     );
   };
 
