@@ -46,8 +46,8 @@ const MyTeam = () => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
 
-  const BASE_URL = "http://localhost:3002/";
-  // const BASE_URL = "https://floahh-backend.onrender.com/";
+  // const BASE_URL = "http://localhost:3002/";
+  const BASE_URL = "https://floahh-backend.onrender.com/";
 
   useEffect(() => {
     const getTeam = async () => {
