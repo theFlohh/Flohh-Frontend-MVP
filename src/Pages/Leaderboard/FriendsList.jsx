@@ -117,7 +117,6 @@ const FriendsList =() => {
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                <div className="hidden sm:block text-sm text-gray-300">09/10</div>
                 <div className="flex items-center gap-1 text-yellow-300 font-semibold">
                   <img src="/img/game-icons_two-coins.png" alt="coin" className="w-5 h-5 object-contain" />
                   <span className="text-sm sm:text-base">1,234,567 pts</span>

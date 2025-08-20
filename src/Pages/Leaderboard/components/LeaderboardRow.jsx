@@ -48,11 +48,6 @@ const LeaderboardRow = ({ item, rank, rankIcons, entity }) => {
           </div>
         </div>
       </div>
-
-      <p className="text-sm text-gray-400">
-        {entity === "artists" ? "Artist" : "User"}
-      </p>
-
       <div className="flex items-center gap-2 mt-2 sm:mt-0">
         <img
           src="/img/game-icons_two-coins.png"

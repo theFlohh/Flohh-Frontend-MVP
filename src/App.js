@@ -8,6 +8,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Artists from "./Pages/Admin/Artists";
+// import Artists from "./Pages/Admin/Artists";
 import AddArtistCSV from "./Pages/AddArtistCSV";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
@@ -18,6 +19,7 @@ import ProfileIndex from "./Pages/ClientSide/ProfileIndex";
 import MyTeam from "./Pages/ClientSide/MyTeam";
 import ArtistProfilePage from "./Pages/ClientSide/ArtistProfilePage";
 import CreateTeam from "./Pages/ClientSide/CreateTeam/CreateTeam";
+// import CreateTeam from "./Pages/ClientSide/CreateTeam/CreateTeam";
 import GlobalLeaderboard from "./Pages/Leaderboard/GlobalLeaderboard";
 import FriendsList from "./Pages/Leaderboard/FriendsList";
 import FriendLeaderboardView from "./Pages/Leaderboard/FriendLeaderboardView";
@@ -33,15 +35,6 @@ import ArtistIndex from "./Pages/ClientSide/ArtistPage";
 function AppRoutes() {
   const { user, token, loading } = useAuth();
   const role = user?.role;
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading...
-      </div>
-    );
-  }
-
   if (!token || !role) {
     return (
       <Routes>
@@ -60,6 +53,9 @@ function AppRoutes() {
             <Route index element={<AdminDashboard />} />
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="add-artist-csv" element={<AddArtistCSV />} />
+            <Route path="admin/artists" element={<Artists />} />
+            <Route path="all-users" element={<AdminAllUsersPage />} />
+            <Route path="artist/:id" element={<ArtistProfilePage />} />
             <Route path="admin/artists" element={<Artists />} />
             <Route path="all-users" element={<AdminAllUsersPage />} />
             <Route path="artist/:id" element={<ArtistProfilePage />} />
@@ -83,6 +79,7 @@ function AppRoutes() {
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="/leaderboard/global" element={<GlobalLeaderboard />} />
           <Route path="/leaderboard/friend" element={<FriendsList />} />
+          <Route path="/redraft" element={<RedraftFlow  />} />
           <Route path="/redraft" element={<RedraftFlow  />} />
           <Route
             path="/leaderboard/friends/create"

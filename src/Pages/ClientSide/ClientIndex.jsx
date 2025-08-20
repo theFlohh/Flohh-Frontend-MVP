@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import StartingSection from "../../Components/Client/StartingSection";
 import TrendingArtist from "../../Components/Client/TrendingArtist";
 import BreakOut from "../../Components/Client/BreakOut";
 import LegendArtist from "../../Components/Client/LegendArtist";
 import StandardArtist from "../../Components/Client/StandardArtist";
 import { fetchDraftableArtists } from "../../Services/Api";
+// import { fetchDraftableArtists } from "../../Services/Api";
 
 const ClientIndex = () => {
   const user = JSON.parse(localStorage.getItem("user"));

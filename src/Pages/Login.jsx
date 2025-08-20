@@ -1,7 +1,7 @@
-import { useState } from "react";
-import API from "../Services/Api";
+import { useState, useEffect } from "react";
 import { useAuth } from "../Context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import API from "../Services/Api";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -9,21 +9,51 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  // ---------- Handle Google redirect ----------
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const userParam = params.get("user");
+
+    if (token && userParam) {
+      try {
+        const user = JSON.parse(decodeURIComponent(userParam));
+        console.log("Google login user:", user); 
+        login(token, user); // save in context + localStorage
+
+        // Clear the query params from URL
+        window.history.replaceState({}, document.title, "/");
+
+        // Redirect to dashboard
+        navigate("/", { replace: true });
+      } catch (err) {
+        console.error("Failed to parse Google login user:", err);
+      }
+    }
+  }, [login, navigate]);
+
+
+  // ---------- Handle input changes ----------
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  // ---------- Handle normal login ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
     setSuccess("");
+
     try {
       const res = await API.post("/auth/login", form);
       const token = res.data.token;
       const user = res.data.user;
       login(token, user);
-      sessionStorage.setItem(
+sessionStorage.setItem(
         "loggedInUser",
         JSON.stringify({
           id: user.id,
@@ -36,8 +66,8 @@ const Login = () => {
         "Saved user:",
         JSON.parse(sessionStorage.getItem("loggedInUser"))
       );
-
       setSuccess("Login successful! Redirecting...");
+      navigate("/", { replace: true }); // redirect to dashboard
     } catch (err) {
       setError(
         err.response?.data?.error ||
@@ -46,6 +76,11 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // ---------- Handle Google login ----------
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3002/api/auth/google";
   };
 
   return (
@@ -63,8 +98,7 @@ const Login = () => {
             <span className="text-yellow-300 text-xl sm:text-2xl">👋</span>
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-gray-200">
-            Today is new day. It's your day. You shape it. <br />
-            Sign in to start managing your projects.
+            Today is a new day. Sign in to start managing your projects.
           </p>
         </div>
 
@@ -179,7 +213,7 @@ const Login = () => {
           <button
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
-            disabled
+            onClick={handleGoogleLogin}
           >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -187,18 +221,6 @@ const Login = () => {
               className="w-5 h-5"
             />
             Sign in with Google
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
-            disabled
-          >
-            <img
-              src="https://www.svgrepo.com/show/448234/facebook.svg"
-              alt="Facebook"
-              className="w-5 h-5"
-            />
-            Sign in with Facebook
           </button>
         </div>
 

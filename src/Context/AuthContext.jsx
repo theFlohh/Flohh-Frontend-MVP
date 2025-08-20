@@ -42,6 +42,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     sessionStorage.removeItem("loggedInUser");
     sessionStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem("draft_user_has_team_guest");
+    localStorage.removeItem("draft_user_started_guest");
+    localStorage.removeItem("draft_banner_snapshot_guest");
   };
 
   useEffect(() => {

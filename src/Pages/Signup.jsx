@@ -3,13 +3,19 @@ import API from "../Services/Api";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "", role: "user" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "user",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +44,8 @@ const Signup = () => {
       <div className="relative z-10 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-md p-6 sm:p-8 space-y-8 rounded-2xl bg-white/10 backdrop-blur-md shadow-2xl border border-white/20">
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-            Create Account <span className="text-yellow-300 text-xl sm:text-2xl">🚀</span>
+            Create Account{" "}
+            <span className="text-yellow-300 text-xl sm:text-2xl">🚀</span>
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-gray-200">
             Today is a new day. It's your day. You shape it. <br />
@@ -55,7 +62,11 @@ const Signup = () => {
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm mb-2">
             <div className="flex items-center">
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <svg
+                className="w-4 h-4 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
                 <path
                   fillRule="evenodd"
                   d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
@@ -69,7 +80,9 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="space-y-5 w-full">
           <div>
-            <label className="block text-gray-200 text-sm font-medium mb-1">Name</label>
+            <label className="block text-gray-200 text-sm font-medium mb-1">
+              Name
+            </label>
             <input
               type="text"
               name="name"
@@ -82,7 +95,9 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-200 text-sm font-medium mb-1">Email</label>
+            <label className="block text-gray-200 text-sm font-medium mb-1">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -95,7 +110,9 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-200 text-sm font-medium mb-1">Password</label>
+            <label className="block text-gray-200 text-sm font-medium mb-1">
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -107,7 +124,9 @@ const Signup = () => {
               disabled={isLoading}
             />
           </div>
-          <div className="text-xs text-gray-400 mb-1">By signing up, you agree to our terms.</div>
+          <div className="text-xs text-gray-400 mb-1">
+            By signing up, you agree to our terms.
+          </div>
           <button
             type="submit"
             disabled={isLoading}
@@ -153,7 +172,9 @@ const Signup = () => {
           <button
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
-            disabled
+            onClick={() =>
+              (window.location.href = "http://localhost:3002/api/auth/google")
+            }
           >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"

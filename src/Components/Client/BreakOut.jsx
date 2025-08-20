@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchDraftableArtists } from "../../Services/Api";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "../../Components/Loader";
 const breakoutImages = [
   "/img/b1.png",
   "/img/b2.png",
@@ -44,9 +44,8 @@ const BreakOut = ({ filter }) => {
   }
   filtered = sortArtists(filtered, filter?.sort);
 
-  if (loading) {
-    return <div className="flex justify-center items-center min-h-[200px]">Loading...</div>;
-  }
+  if (loading) return <Loader/>
+
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }

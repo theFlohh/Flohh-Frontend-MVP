@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDraftableArtists } from "../../Services/Api";
-
+import Loader from "../../Components/Loader";
 const legendImages = [
   "/img/t1.png",
   "/img/t2.png",
@@ -49,13 +49,7 @@ const LegendArtist = ({ filter }) => {
   }
   filtered = sortArtists(filtered, filter?.sort);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        Loading...
-      </div>
-    );
-  }
+  if (loading) return <Loader/>
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
