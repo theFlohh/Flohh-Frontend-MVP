@@ -204,7 +204,7 @@ sessionStorage.setItem(
             <div className="flex-grow h-px bg-gray-600 opacity-40"></div>
           </div>
 
-          <div className="space-y-3 w-full">
+          {/* <div className="space-y-3 w-full">
             <button
               type="button"
               className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
@@ -229,7 +229,7 @@ sessionStorage.setItem(
               />
               Sign in with Facebook
             </button>
-          </div>
+          </div> */}
 
 
         <div className="space-y-3 w-full">

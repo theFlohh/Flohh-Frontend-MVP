@@ -184,7 +184,7 @@ const Signup = () => {
             />
             Sign up with Google
           </button>
-          <button
+          {/* <button
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-full border border-white/20 transition"
             disabled
@@ -195,7 +195,7 @@ const Signup = () => {
               className="w-5 h-5"
             />
             Sign up with Facebook
-          </button>
+          </button> */}
         </div>
 
         <div className="text-center text-sm text-gray-300 mt-2">
