@@ -25,10 +25,12 @@ import FriendsList from "./Pages/Leaderboard/FriendsList";
 import FriendLeaderboardView from "./Pages/Leaderboard/FriendLeaderboardView";
 import CreateFriendLeaderboard from "./Pages/Friends/CreateFriendLeaderboard";
 import ComingSoonCard from "./Pages/Settings/Setting";
+import Support from "./Pages/Support/Support";
 import LegendPool from "./Pages/ClientSide/LegendPool";
 import StandardPool from "./Pages/ClientSide/StandardPoll";
 import BreakoutPool from "./Pages/ClientSide/BreakoutPool";
 import TrendingPool from "./Pages/ClientSide/TrendingPool";
+import UserTeam from "./Pages/ClientSide/UserTeam";
 import AdminAllUsersPage from "./Pages/Admin/AllUsers";
 import RedraftFlow from "./Pages/ClientSide/Redraft";
 import ArtistIndex from "./Pages/ClientSide/ArtistPage";
@@ -90,11 +92,12 @@ function AppRoutes() {
             element={<FriendLeaderboardView />}
           />
           <Route path="/settings" element={<ComingSoonCard />} />
-          <Route path="/support" element={<ComingSoonCard />} />
+          <Route path="/support" element={<Support />} />
           <Route path="/legend-pool" element={<LegendPool />} />
           <Route path="/standard-pool" element={<StandardPool />} />
           <Route path="/breakout-pool" element={<BreakoutPool />} />
           <Route path="/trending-pool" element={<TrendingPool />} />
+          <Route path="/user-team/:userId" element={<UserTeam />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" />} />

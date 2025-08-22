@@ -67,6 +67,11 @@ export const fetchUserTeam = async () => {
   return data;
 };
 
+export const fetchUserTeamById = async (userId) => {
+  const { data } = await API.get(`/draft/user_team/${userId}`);
+  return data;
+};
+
 export const fetchArtistsByTier = async (tierName) => {
   const { data } = await API.get(`/tier/${tierName}`);
   return data;
@@ -101,7 +106,9 @@ export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
   const formData = new FormData();
   formData.append("draftedArtists", JSON.stringify(draftedArtists));
   // formData.append("teamName", teamName);
-  if(teamName) return formData.append("teamName" ,teamName);
+  if(teamName) {
+    formData.append("teamName" ,teamName)
+  }
   
   if (avatarFile) {
     formData.append("avatar", avatarFile);

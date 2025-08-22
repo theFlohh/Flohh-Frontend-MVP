@@ -52,7 +52,11 @@ const BreakoutPool = () => {
         />
       </div>
       {loading ? (
-        <div className="flex justify-center items-center min-h-[200px]">Loading...</div>
+        <div className="flex justify-center items-center min-h-[200px]"><img
+        src="/img/logo1.png"
+        alt="Loading"
+        className="h-12 w-12 animate-spin rounded-full mb-2 border-2 border-purple-500"
+      /></div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {paginated.length === 0 ? (

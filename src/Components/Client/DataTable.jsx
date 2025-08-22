@@ -41,7 +41,11 @@ const DataTable = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[40vh] text-white">
-        Loading...
+       <img
+        src="/img/logo1.png"
+        alt="Loading..."
+        className="h-12 w-12 animate-spin rounded-full mb-2 border-2 border-purple-500"
+      />
       </div>
     );
   }

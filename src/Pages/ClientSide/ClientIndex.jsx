@@ -45,12 +45,16 @@ const ClientIndex = () => {
   return (
     <div className="space-y-8 w-full max-w-7xl mx-auto">
       <div className="relative bg-gradient-to-r from-[#6C4BF4] to-[#B56DF3] rounded-xl p-6 md:p-8 mb-6 overflow-hidden flex items-center justify-center">
-        <img
-          src="/img/music-notes.png"
+        {/* <img
+          src="/img/banner-rect1.png"
           alt="Background Music Notes"
           className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-        <h1 className="text-xl md:text-3xl font-semibold z-10 text-center text-white">
+        /> */}
+          <div
+            className="absolute w-full h-full sm:h-full md:h-full rounded-1xl mb-full bg-cover bg-center"
+            style={{ backgroundImage: `url('/img/banner-rect1.png')`, opacity:'55%' }}
+          ></div>
+        <h1 className="text-xl md:text-4xl font-semibold z-10 text-right text-white">
           Welcome Back {user.name}
         </h1>
       </div>

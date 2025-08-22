@@ -127,7 +127,7 @@ const ArtistProfileScores = ({ artist }) => {
       {loading && (
         <div className="flex justify-center items-center py-10 w-full">
           <img
-            src="/img/loader.png"
+            src="/img/logo1.png"
             alt="Loading..."
             className="w-12 h-12 animate-spin rounded-full border-2 border-purple-500"
           />

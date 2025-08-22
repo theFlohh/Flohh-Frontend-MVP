@@ -43,15 +43,15 @@ const FriendsList =() => {
     setModalLoading(true);
 
     try {
-      const names = lb.members.map((id) => {
+      const membersWithDetails = lb.members.map((id) => {
         const user = allUsers.find((u) => u._id === id);
-        return user ? user.name : "Unknown User";
+        return user ? { id: user._id, name: user.name } : { id, name: "Unknown User" };
       });
 
-      setMemberNames(names);
+      setMemberNames(membersWithDetails);
     } catch (error) {
       console.error("Error fetching member names", error);
-      setMemberNames(["Failed to fetch members."]);
+      setMemberNames([{ id: null, name: "Failed to fetch members." }]);
     }
 
     setModalLoading(false);
@@ -143,9 +143,17 @@ const FriendsList =() => {
               <Loader />
             ) : (
               <ul className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
-                {memberNames.map((name, idx) => (
-                  <li key={idx} className="bg-[#2c3a5b] px-4 py-2 rounded-md">
-                    {name}
+                {memberNames.map((member, idx) => (
+                  <li 
+                    key={idx} 
+                    className={`bg-[#2c3a5b] px-4 py-2 rounded-md ${member.id ? 'cursor-pointer hover:bg-[#3a4768] transition-colors' : ''}`}
+                    onClick={() => {
+                      if (member.id) {
+                        navigate(`/user-team/${member.id}`);
+                      }
+                    }}
+                  >
+                    {member.name}
                   </li>
                 ))}
               </ul>

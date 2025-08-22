@@ -30,9 +30,9 @@ const Navbar = ({ onSidebarToggle }) => {
   return (
     <nav className="w-full flex items-center px-4 py-3 bg-[#1F223E] shadow">
       {/* Left Side */}
-      <div className="flex items-center gap-2 w-full md:w-1/4">
-        <img src="/img/logo1.png" alt="logo" className="w-6 h-6" />
-        <span className="text-white font-bold text-lg">FLOHH</span>
+      <div className="flex items-center gap-2 w-full md:w-1/4" style={{cursor:"pointer"}}>
+        <img src="/img/logo1.png" alt="logo" className="w-auto h-auto" />
+        <span className="text-white font-bold text-lg" style={{fontSize:"2rem"}}>FLOHH</span>
         <button
           className="ml-4 p-1 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-200 transition md:hidden flex flex-end"
           onClick={onSidebarToggle}
@@ -51,6 +51,7 @@ const Navbar = ({ onSidebarToggle }) => {
              text-white rounded-full 
              hover:from-pink-600 hover:to-purple-600 
              transition duration-300 ease-in-out"
+             style={{cursor:"pointer"}}
         >
           <FiLogOut /> Logout
         </button>

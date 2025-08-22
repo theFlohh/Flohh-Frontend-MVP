@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Chart from "react-apexcharts";
 
@@ -72,7 +72,7 @@ const ArtistProfileLeft = ({ artist }) => {
         {artist?.name || "Artist Name"}
       </h2>
       <div className="text-sm text-white opacity-70 mb-3">
-        {artist?.type || "Pakistani Playback Singer"}
+        {artist?.genres || "Pakistani Playback Singer"}
       </div>
 
       {/* Scout Button */}
