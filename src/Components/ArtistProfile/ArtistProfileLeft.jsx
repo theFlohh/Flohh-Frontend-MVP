@@ -87,7 +87,7 @@ const ArtistProfileLeft = ({ artist }) => {
         transition-opacity duration-300 z-20
         ${showTooltip ? "opacity-100" : "opacity-0 pointer-events-none"}
         group-hover:opacity-100 group-hover:pointer-events-auto
-        scrollbar-hide
+        scrollbar-hide z-1000
       `}
     >
       <div
