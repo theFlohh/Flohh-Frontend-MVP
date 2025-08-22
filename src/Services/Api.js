@@ -225,3 +225,22 @@ export const fetchGlobalLeaderboard = async (entity = 'users', timeframe = 'all'
     return entity === 'artists' ? data.artists : data.users;
 }
 export default API;
+// === Contact API ===
+export const sendSupportMessage = async (formData) => {
+  try {
+    const { data } = await API.post('/contact', formData);
+    return data; // { ok: true, message: 'Message sent successfully' }
+  } catch (error) {
+    console.error("Failed to send support message:", error.response?.data || error.message);
+    throw error;
+  }
+};
+export const fetchUserMovesLeaderboard = async () => {
+  try {
+    const { data } = await API.get('/leaderboard/moves/users');
+    return data; // returns array of users with currentScore, previousScore, changeDirection, changeValue
+  } catch (error) {
+    console.error("Failed to fetch user moves leaderboard:", error.response?.data || error.message);
+    throw error;
+  }
+};

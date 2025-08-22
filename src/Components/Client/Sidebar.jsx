@@ -30,8 +30,9 @@ const navItems = [
   { path: "/my-team", label: "My Team", icon: <FiHome /> },
   { path: "/artist", label: "Artists", icon: <FiUser /> },
   { path: "/", label: "Dashboard", icon: <FiGrid /> },
-  { path: "/settings", label: "Settings", icon: <FiSettings /> },
+  { path: "/profile-setting", label: "Settings", icon: <FiSettings /> },
   { path: "/support", label: "Support", icon: <FiHelpCircle /> },
+  { path: "/how-to-play", label: "How to play", icon: <FiHelpCircle /> },
   {
     path: "/leaderboard/global",
     label: "Global Leaderboard",
@@ -135,7 +136,7 @@ const profileImg = localStorage.getItem("profileImage");
             {/* Divider line */}
             <div className="my-3 mx-4 border-t border-white opacity-60" />
             {/* Next 2 nav items */}
-            {navItems.slice(3, 5).map((item) => (
+            {navItems.slice(3, 6).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
@@ -171,7 +172,7 @@ const profileImg = localStorage.getItem("profileImage");
           {/* Dropdown Items */}
           {showLeaderboardDropdown && (
             <div className="ml-6 space-y-2 transition-all duration-300">
-              {navItems.slice(5).map((item) => (
+              {navItems.slice(6).map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
