@@ -34,6 +34,7 @@ import UserTeam from "./Pages/ClientSide/UserTeam";
 import AdminAllUsersPage from "./Pages/Admin/AllUsers";
 import RedraftFlow from "./Pages/ClientSide/Redraft";
 import ArtistIndex from "./Pages/ClientSide/ArtistPage";
+import HowToPlayPage from "./Pages/ClientSide/HowToPlay/HowToPlay";
 function AppRoutes() {
   const { user, token, loading } = useAuth();
   const role = user?.role;
@@ -83,6 +84,7 @@ function AppRoutes() {
           <Route path="/leaderboard/friend" element={<FriendsList />} />
           <Route path="/redraft" element={<RedraftFlow  />} />
           <Route path="/redraft" element={<RedraftFlow  />} />
+          <Route path="/how-to-play" element={<HowToPlayPage  />} />
           <Route
             path="/leaderboard/friends/create"
             element={<CreateFriendLeaderboard />}

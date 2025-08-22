@@ -7,7 +7,7 @@ import TimeframeFilter from "./components/TimeframeFilter";
 import LeaderboardRow from "./components/LeaderboardRow";
 import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
-
+import MovesLeaderboard from "./MovesLeaderboard";
 const rankIcons = [
   "/img/gold.png", // 🥇
   "/img/sliver.png", // 🥈
@@ -135,12 +135,8 @@ const GlobalLeaderboard = () => {
 
       {activeTab === "friends" && <FriendsList />}
 
-      {activeTab === "moves" && (
-        <div className="bg-[#121e3f] p-6 rounded-lg shadow-lg text-white text-center">
-          <h2 className="text-2xl font-bold mb-2">Coming Soon</h2>
-          <p className="text-gray-400">Stay tuned for awesome updates!</p>
-        </div>
-      )}
+      {activeTab === "moves" && <MovesLeaderboard />}
+
     </div>
   );
 };

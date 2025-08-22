@@ -21,7 +21,8 @@ const ProfileIndex = () => {
   const [isChanged, setIsChanged] = useState(false);
   const [showModal, setShowModal] = useState(false); // ✅ modal state
 
-  useEffect(() => {
+ // useEffect me:
+useEffect(() => {
   const loadData = async () => {
     try {
       const [stats, details] = await Promise.all([
@@ -32,15 +33,16 @@ const ProfileIndex = () => {
       setUserStats(stats);
       setUserDetails(details);
 
-      // Local storage se image check karo
-      const savedImage = localStorage.getItem("profileImage");
+      // 🔑 Always use backend URL first
       setFormData({
         name: details.name || "",
         email: details.email || "",
         password: "",
         profileImage: null,
       });
-      setPreviewImage(savedImage || details.profileImage); // Agar local storage me image hai to use karo
+
+      // 🔑 Agar backend me profileImage hai to wahi set karo
+      setPreviewImage(details.profileImage || "https://i.ibb.co/XWyZmx0/avatar.png");
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
@@ -50,18 +52,20 @@ const ProfileIndex = () => {
   loadData();
 }, []);
 
+// handleInputChange me:
+const handleInputChange = (e) => {
+  const { name, value, files } = e.target;
+  if (name === "profileImage" && files.length > 0) {
+    setFormData({ ...formData, profileImage: files[0] });
+    // 🔑 Local preview sirf file choose karte waqt dikhana
+    setPreviewImage(URL.createObjectURL(files[0]));
+  } else {
+    setFormData({ ...formData, [name]: value });
+  }
+  setIsChanged(true);
+};
 
-  const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "profileImage" && files.length > 0) {
-      setFormData({ ...formData, profileImage: files[0] });
-      setPreviewImage(URL.createObjectURL(files[0]));
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-    setIsChanged(true);
-  };
-
+// handleUpdate me:
 const handleUpdate = async () => {
   setUpdating(true);
   try {
@@ -74,7 +78,7 @@ const handleUpdate = async () => {
     const updated = await updateUser(fd);
     setUserDetails(updated.user);
 
-    // ✅ LocalStorage me profileImage save karna
+    // ✅ Always prefer S3 URL returned from backend
     if (updated.user?.profileImage) {
       localStorage.setItem("profileImage", updated.user.profileImage);
       setPreviewImage(updated.user.profileImage);
@@ -88,6 +92,7 @@ const handleUpdate = async () => {
     setUpdating(false);
   }
 };
+
   
 
   if (loading) return <Loader />;
