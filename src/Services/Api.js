@@ -102,26 +102,34 @@ export const submitDraft = async (draftedArtists, teamName) => {
 //     }
 //   });
   
-export const updateDraft = async (draftedArtists, teamName, avatarFile) => {
+
+// Update Draft (team name, draftedArtists, profile image)
+// Services/Api.js
+export const updateDraft = async ({
+  draftedArtists,
+  teamName,
+  avatar,          // 👈 field name avatar
+} = {}) => {
   const formData = new FormData();
-  formData.append("draftedArtists", JSON.stringify(draftedArtists));
-  // formData.append("teamName", teamName);
-  if(teamName) {
-    formData.append("teamName" ,teamName)
-  }
-  
-  if (avatarFile) {
-    formData.append("avatar", avatarFile);
+
+  if (Array.isArray(draftedArtists) && draftedArtists.length > 0) {
+    formData.append("draftedArtists", JSON.stringify(draftedArtists));
   }
 
-  const { data } = await API.put('/draft/drafts/update', formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
+  if (typeof teamName !== "undefined") {
+    formData.append("teamName", teamName);
+  }
+
+  if (avatar) {
+    formData.append("avatar", avatar); // 👈 yahan 'avatar' hi rakho
+  }
+  const { data } = await API.put("/draft/drafts/update", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-  
   return data;
 };
+
+
 
 export const fetchUserStats = async () => {
   try {

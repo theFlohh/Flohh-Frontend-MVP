@@ -44,15 +44,10 @@ const ClientIndex = () => {
 
   return (
     <div className="space-y-8 w-full max-w-7xl mx-auto">
-      <div className="relative bg-gradient-to-r from-[#6C4BF4] to-[#B56DF3] rounded-xl p-6 md:p-8 mb-6 overflow-hidden flex items-center justify-center">
-        {/* <img
-          src="/img/banner-rect1.png"
-          alt="Background Music Notes"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        /> */}
+      <div className="relative h-32 md:h-52  rounded-xl p-6 md:p-8 mb-6 overflow-hidden flex items-center justify-center">
           <div
-            className="absolute w-full h-full sm:h-full md:h-full rounded-1xl mb-full bg-cover bg-center"
-            style={{ backgroundImage: `url('/img/banner-rect1.png')`, opacity:'55%' }}
+            className="absolute w-full h-32 sm:h-40 md:h-52 rounded-xl mb-full bg-cover bg-center"
+            style={{ backgroundImage: `url('/img/banner-rect1.png')`, opacity:'85%' }}
           ></div>
         <h1 className="text-xl md:text-4xl font-semibold z-10 text-right text-white">
           Welcome Back {user.name}
