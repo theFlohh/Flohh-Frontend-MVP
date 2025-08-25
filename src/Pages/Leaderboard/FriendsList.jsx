@@ -7,13 +7,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader";
 
-const rankIcons = [
-  "/img/gold.png",
-  "/img/sliver.png",
-  "/img/brozne.png",
-];
+const rankIcons = ["/img/gold.png", "/img/sliver.png", "/img/brozne.png"];
 
-const FriendsList =() => {
+const FriendsList = () => {
   const [leaderboards, setLeaderboards] = useState([]);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,7 +41,9 @@ const FriendsList =() => {
     try {
       const membersWithDetails = lb.members.map((id) => {
         const user = allUsers.find((u) => u._id === id);
-        return user ? { id: user._id, name: user.name } : { id, name: "Unknown User" };
+        return user
+          ? { id: user._id, name: user.name }
+          : { id, name: "Unknown User" };
       });
 
       setMemberNames(membersWithDetails);
@@ -69,12 +67,18 @@ const FriendsList =() => {
 
   return (
     <div className="w-full p-4 sm:p-6 bg-[#121e3f] rounded-lg shadow-lg relative">
-      <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Friends Leaderboard</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
+        Friends Leaderboard
+      </h2>
 
       {/* Input & Button */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 w-full">
         <div className="flex items-center bg-[#1f2a4c] rounded-full px-4 py-2 w-full">
-          <img src="/img/search-01.png" alt="search" className="w-4 h-4 mr-2 opacity-70" />
+          <img
+            src="/img/search-01.png"
+            alt="search"
+            className="w-4 h-4 mr-2 opacity-70"
+          />
           <input
             type="text"
             placeholder="Leaderboard Name"
@@ -106,19 +110,37 @@ const FriendsList =() => {
             >
               <div className="flex items-center gap-4 mb-3 sm:mb-0">
                 {index < 3 ? (
-                  <img src={rankIcons[index]} alt={`Rank ${index + 1}`} className="w-10 h-10" />
+                  <img
+                    src={rankIcons[index]}
+                    alt={`Rank ${index + 1}`}
+                    className="w-10 h-10"
+                    onError={(e) =>
+                      (e.currentTarget.src = "/img/logo1.png")
+                    }
+                  />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-[#343c58] flex items-center justify-center font-semibold text-white">
                     {index + 1}
                   </div>
                 )}
-                <img src="/img/flag.png" alt="flag" className="w-8 h-8 rounded-md object-cover" />
-                <span className="font-semibold text-white text-base sm:text-lg">{lb.name}</span>
+                <img
+                  src="/img/flag.png"
+                  alt="flag"
+                  className="w-8 h-8 rounded-md object-cover"
+                  onError={(e) => (e.currentTarget.src = "/img/logo1.png")}
+                />
+                <span className="font-semibold text-white text-base sm:text-lg">
+                  {lb.name}
+                </span>
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <div className="flex items-center gap-1 text-yellow-300 font-semibold">
-                  <img src="/img/game-icons_two-coins.png" alt="coin" className="w-5 h-5 object-contain" />
+                  <img
+                    src="/img/game-icons_two-coins.png"
+                    alt="coin"
+                    className="w-5 h-5 object-contain"
+                  />
                   <span className="text-sm sm:text-base">1,234,567 pts</span>
                 </div>
               </div>
@@ -137,16 +159,22 @@ const FriendsList =() => {
             >
               ✕
             </button>
-            <h3 className="text-xl font-bold mb-4">{selectedLeaderboard?.name} Members</h3>
+            <h3 className="text-xl font-bold mb-4">
+              {selectedLeaderboard?.name} Members
+            </h3>
 
             {modalLoading ? (
               <Loader />
             ) : (
               <ul className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
                 {memberNames.map((member, idx) => (
-                  <li 
-                    key={idx} 
-                    className={`bg-[#2c3a5b] px-4 py-2 rounded-md ${member.id ? 'cursor-pointer hover:bg-[#3a4768] transition-colors' : ''}`}
+                  <li
+                    key={idx}
+                    className={`bg-[#2c3a5b] px-4 py-2 rounded-md ${
+                      member.id
+                        ? "cursor-pointer hover:bg-[#3a4768] transition-colors"
+                        : ""
+                    }`}
                     onClick={() => {
                       if (member.id) {
                         navigate(`/user-team/${member.id}`);
